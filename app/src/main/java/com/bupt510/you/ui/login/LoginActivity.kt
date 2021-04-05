@@ -120,7 +120,7 @@ class LoginActivity : AppCompatActivity() {
 fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
     this.addTextChangedListener(object : TextWatcher {
         override fun afterTextChanged(editable: Editable?) {
-            afterTextChanged.invoke(editable.toString())
+            afterTextChanged(editable.toString())
         }
 
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
