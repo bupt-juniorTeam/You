@@ -13,11 +13,12 @@ import kotlin.coroutines.suspendCoroutine
  */
 object YouNetwork {
 
-    // 网络接口返回的Call<T>调用此函数进行网络请求，得到对应的T数据
+    // 封装enqueue的协程
     private suspend fun <T> Call<T>.await(): T {
         return suspendCoroutine { continuation ->
             enqueue(object : Callback<T> {
                 override fun onResponse(call: Call<T>, response: Response<T>) {
+                    // 在onResponse方法中调用body()来获得T类型的数据
                     val body = response.body()
                     if (body != null)
                         continuation.resume(body)
