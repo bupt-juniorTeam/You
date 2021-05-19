@@ -1,5 +1,7 @@
 package com.you.android.logic.network
 
+import com.you.android.logic.network.OkHttpClients.roomClient
+import com.you.android.logic.network.OkHttpClients.roomRequest
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -12,6 +14,12 @@ import kotlin.coroutines.suspendCoroutine
  * 在此类中实现retrofit2的所有Interface的网络请求
  */
 object YouNetwork {
+
+    // 创建webSockets
+    private val roomSocket = roomClient.newWebSocket(roomRequest,RoomListener())
+
+    // ----------------------------
+
 
     // 封装enqueue的协程
     private suspend fun <T> Call<T>.await(): T {
