@@ -16,10 +16,14 @@ import kotlin.coroutines.suspendCoroutine
 object YouNetwork {
 
     // 创建webSockets
-    private val roomSocket = roomClient.newWebSocket(roomRequest,RoomListener())
+//    private val roomSocket = roomClient.newWebSocket(roomRequest,RoomListener())
 
     // ----------------------------
 
+    private val roomListService = ServiceCreator.create<RoomListService>()
+
+    // 返回RoomListResponse
+    suspend fun searchRooms() = roomListService.searchRooms().await()
 
     // 封装enqueue的协程
     private suspend fun <T> Call<T>.await(): T {
