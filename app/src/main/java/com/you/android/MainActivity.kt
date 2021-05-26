@@ -12,5 +12,6 @@ class MainActivity : AppCompatActivity() {
         // test
         val intent = Intent(this,RoomListActivity::class.java)
         startActivity(intent)
+        
     }
 }

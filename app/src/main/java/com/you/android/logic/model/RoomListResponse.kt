@@ -6,6 +6,6 @@ package com.you.android.logic.model
 //    "people_number":0
 //}]
 //}
-data class RoomListResponse(val rooms: List<Room>) {
-    data class Room(val id: Int, val name: String, val people_number: Int)
+data class RoomListResponse(val room_list: List<Room>) {
+    data class Room(val name: String, val population: Int)
 }

@@ -17,8 +17,8 @@ object Repository {
 
     fun searchRooms() = fire(Dispatchers.IO) {
         val roomListResponse = YouNetwork.searchRooms()
-        LogUtil.i(TAG,roomListResponse.rooms.toString())
-        val rooms = roomListResponse.rooms
+        LogUtil.i(TAG,roomListResponse.room_list.toString())
+        val rooms = roomListResponse.room_list
         Result.success(rooms)
     }
 
