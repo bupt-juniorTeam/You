@@ -1,6 +1,8 @@
 package com.you.android.logic.network
 
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
+import com.you.android.logic.model.WebSocketMessage
 import com.you.android.util.LogUtil
 import okhttp3.Response
 import okhttp3.WebSocket
@@ -13,7 +15,7 @@ class RoomWebSocketListener : WebSocketListener() {
         private const val TAG = "RoomWebSocketListener"
     }
 
-    val messageFromServer = MutableLiveData<String>()
+    val messageFromServer = MutableLiveData<WebSocketMessage>()
 
     override fun onOpen(webSocket: WebSocket, response: Response) {
         super.onOpen(webSocket, response)
@@ -22,7 +24,8 @@ class RoomWebSocketListener : WebSocketListener() {
     override fun onMessage(webSocket: WebSocket, text: String) {
         super.onMessage(webSocket, text)
         LogUtil.d(TAG, text)
-        messageFromServer.postValue(text)
+        val message = Gson().fromJson(text,WebSocketMessage::class.java)
+        messageFromServer.postValue(message)
     }
 
     override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
@@ -40,4 +43,5 @@ class RoomWebSocketListener : WebSocketListener() {
     override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
         super.onFailure(webSocket, t, response)
     }
+
 }

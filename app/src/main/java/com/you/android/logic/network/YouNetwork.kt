@@ -17,8 +17,20 @@ object YouNetwork {
     // ----------------------
     private val roomListService = ServiceCreator.create<RoomListService>()
 
+    private val createRoomService = ServiceCreator.create<CreateRoomService>()
+
+    private val joinOrLeaveRoomService = ServiceCreator.create<JoinOrLeaveRoomService>()
+
     // 返回RoomListResponse
     suspend fun searchRooms() = roomListService.searchRooms().await()
+
+    suspend fun createRoom(name: String) = createRoomService.createRoom(name).await()
+
+    suspend fun joinRoom(roomName: String, userName: String) =
+        joinOrLeaveRoomService.join(roomName, userName).await()
+
+    suspend fun leaveRoom(roomName: String, userName: String) =
+        joinOrLeaveRoomService.leave(roomName, userName).await()
 
     // 封装enqueue的协程
     private suspend fun <T> Call<T>.await(): T {
