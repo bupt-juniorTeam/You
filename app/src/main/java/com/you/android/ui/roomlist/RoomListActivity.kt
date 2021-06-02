@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.you.android.R
 import com.you.android.logic.model.RoomListResponse
 import com.you.android.util.LogUtil
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -31,7 +32,7 @@ class RoomListActivity : AppCompatActivity() {
         val roomRecyclerView=findViewById<RecyclerView>(R.id.room_list)
         roomRecyclerView.layoutManager = LinearLayoutManager(this@RoomListActivity)
         val adapter = RoomListAdapter()
-        roomRecyclerView.adapter = adapter
+        roomRecyclerView.adapter = AlphaInAnimationAdapter(adapter)
 
         viewModel.roomsLiveData.observe(this, { result ->
             LogUtil.i(TAG,"获取聊天室")
