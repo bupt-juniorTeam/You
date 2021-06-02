@@ -2,6 +2,8 @@ package com.you.android.logic
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
+import com.you.android.logic.network.RoomWebSocketListener
+import com.you.android.logic.network.WebSocketCreator
 import com.you.android.logic.network.YouNetwork
 import com.you.android.util.LogUtil
 import kotlinx.coroutines.Dispatchers
@@ -12,12 +14,15 @@ import kotlin.coroutines.CoroutineContext
 object Repository {
     private const val TAG = "Repository"
 
-    val roomLiveData = MutableLiveData<String>()
-
+    fun createRoomSocket(url: String): MutableLiveData<String> {
+        val socketListener = RoomWebSocketListener()
+        val socket = WebSocketCreator.create(socketListener, url)
+        return socketListener.messageFromServer
+    }
 
     fun searchRooms() = fire(Dispatchers.IO) {
         val roomListResponse = YouNetwork.searchRooms()
-        LogUtil.i(TAG,roomListResponse.room_list.toString())
+        LogUtil.i(TAG, roomListResponse.room_list.toString())
         val rooms = roomListResponse.room_list
         Result.success(rooms)
     }

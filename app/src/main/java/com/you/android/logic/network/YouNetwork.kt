@@ -1,7 +1,6 @@
 package com.you.android.logic.network
 
-import com.you.android.logic.network.OkHttpClients.roomClient
-import com.you.android.logic.network.OkHttpClients.roomRequest
+import okhttp3.WebSocket
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -15,11 +14,7 @@ import kotlin.coroutines.suspendCoroutine
  */
 object YouNetwork {
 
-    // 创建webSockets
-//    private val roomSocket = roomClient.newWebSocket(roomRequest,RoomListener())
-
-    // ----------------------------
-
+    // ----------------------
     private val roomListService = ServiceCreator.create<RoomListService>()
 
     // 返回RoomListResponse
