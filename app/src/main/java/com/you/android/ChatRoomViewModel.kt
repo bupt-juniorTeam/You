@@ -8,29 +8,27 @@ import com.you.android.logic.YouSocket
 import com.you.android.logic.model.JoinOrLeaveRoomResponse
 import com.you.android.logic.model.RoomListResponse
 
-class TestViewModel : ViewModel() {
+class ChatRoomViewModel(val roomName:String) : ViewModel() {
     private val joinRoomFlagLiveData = MutableLiveData<Unit>()
     private val leaveRoomFlagLiveData = MutableLiveData<Unit>()
-    private val chatFlagLiveData = MutableLiveData<Unit>()
+    private val sendMessageFlagLiveData = MutableLiveData<String>()
     private val closeChatFlagLiveData = MutableLiveData<Unit>()
 
-    val joinRes = String()
-    val leaveRes = String()
-    lateinit var youSocket:YouSocket
-    val joinRoom = Transformations.switchMap(joinRoomFlagLiveData) {
-        Repository.joinRoom("TEST")
+    lateinit var youSocket: YouSocket
+
+    val joinRoomLiveData = Transformations.switchMap(joinRoomFlagLiveData) {
+        Repository.joinRoom(roomName)
     }
-    val leaveRoom = Transformations.switchMap(leaveRoomFlagLiveData) {
-        Repository.leaveRoom("TEST")
+    val leaveRoomLiveData = Transformations.switchMap(leaveRoomFlagLiveData) {
+        Repository.leaveRoom(roomName)
     }
-    val chat = Transformations.switchMap(chatFlagLiveData) {
-        Repository.joinRoom("TEST")
-        youSocket = Repository.createRoomSocket("TEST")
-        Repository.sendMessage(youSocket,"hello")
+
+    val chatLiveData = Transformations.switchMap(sendMessageFlagLiveData) { msg ->
+        youSocket = Repository.createRoomSocket(roomName)
+        Repository.sendMessage(youSocket, msg)
         youSocket.messageFromServer
     }
-    val closeChat = Transformations.switchMap(closeChatFlagLiveData){
-        Repository.leaveRoom("TEST")
+    val closeChatLiveData = Transformations.switchMap(closeChatFlagLiveData) {
         Repository.closeRoomSocket(youSocket)
         youSocket.messageFromServer
     }
@@ -43,10 +41,11 @@ class TestViewModel : ViewModel() {
         leaveRoomFlagLiveData.value = leaveRoomFlagLiveData.value
     }
 
-    fun chat() {
-        chatFlagLiveData.value = chatFlagLiveData.value
+    fun sendMessage(msg: String) {
+        sendMessageFlagLiveData.value = msg
     }
-    fun closeChat(){
+
+    fun closeChat() {
         closeChatFlagLiveData.value = closeChatFlagLiveData.value
     }
 }
