@@ -78,12 +78,7 @@ object Repository {
         Log.d("asd", "here!")
         Log.d("asd", res)
         LogUtil.i(TAG, logInResponse.toString())
-        if (res == "login successfully") {
-            return@fire Result.success(res)
-        } else {
-            return@fire Result.failure<String>(Exception(res))
-        }
-
+        return@fire Result.success(res)
     }
 
     fun searchRooms() = fire(Dispatchers.IO) {
