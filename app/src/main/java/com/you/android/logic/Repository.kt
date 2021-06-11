@@ -71,6 +71,21 @@ object Repository {
     }
     // ----------
 
+    fun userLogIn(userTel: String, userPassword: String) = fire(Dispatchers.IO) {
+        LogUtil.e(TAG, "Repository login.")
+        val logInResponse = YouNetwork.userLogIn(userTel, userPassword)
+        val res = logInResponse.res
+        Log.d("asd", "here!")
+        Log.d("asd", res)
+        LogUtil.i(TAG, logInResponse.toString())
+        if (res == "login successfully") {
+            return@fire Result.success(res)
+        } else {
+            return@fire Result.failure<String>(Exception(res))
+        }
+
+    }
+
     fun searchRooms() = fire(Dispatchers.IO) {
         val roomListResponse = YouNetwork.searchRooms()
         LogUtil.i(TAG, roomListResponse.room_list.toString())

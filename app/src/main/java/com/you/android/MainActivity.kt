@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.you.android.logic.network.RoomWebSocketListener
 import com.you.android.logic.network.WebSocketCreator
 import com.you.android.ui.chatroom.ChatroomActivity
+import com.you.android.ui.login.LoginActivity
 import com.you.android.ui.roomlist.RoomListActivity
 import com.you.android.util.LogUtil
 
@@ -16,14 +17,15 @@ class MainActivity : AppCompatActivity() {
         private const val TAG = "MainActivity"
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         //test chatroom
-        val intent = Intent(this, ChatroomActivity::class.java)
-        intent.putExtra("roomName","TEST")
+        val intent=Intent(this,LoginActivity::class.java)
         startActivity(intent)
+//        val intent = Intent(this, ChatroomActivity::class.java)
+//        intent.putExtra("roomName","TEST")
+//        startActivity(intent)
     }
 
 

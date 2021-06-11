@@ -15,11 +15,16 @@ import kotlin.coroutines.suspendCoroutine
 object YouNetwork {
 
     // ----------------------
+    private val logInService=ServiceCreator.create<LogInService>()
+
     private val roomListService = ServiceCreator.create<RoomListService>()
 
     private val createRoomService = ServiceCreator.create<CreateRoomService>()
 
     private val joinOrLeaveRoomService = ServiceCreator.create<JoinOrLeaveRoomService>()
+
+    suspend fun userLogIn(userTel:String, userPassword:String)=
+        logInService.logIn(userTel,userPassword).await()
 
     // 返回RoomListResponse
     suspend fun searchRooms() = roomListService.searchRooms().await()
