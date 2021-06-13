@@ -6,6 +6,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.you.android.R
 import java.lang.Exception
 
@@ -81,13 +84,21 @@ class MsgAdapter(val msgList: List<Msg>) : RecyclerView.Adapter<RecyclerView.Vie
 
     private fun setAvatar(holder: BaseViewHolder, avatarId: String) {
         when (avatarId) {
-            "default" -> holder.userAvatar.setImageResource(R.mipmap.avatar_default)
-            "1" -> holder.userAvatar.setImageResource(R.mipmap.avatar_1)
-            "2" -> holder.userAvatar.setImageResource(R.mipmap.avatar_2)
-            "3" -> holder.userAvatar.setImageResource(R.mipmap.avatar_3)
-            "4" -> holder.userAvatar.setImageResource(R.mipmap.avatar_4)
-            "5" -> holder.userAvatar.setImageResource(R.mipmap.avatar_5)
-            "6" -> holder.userAvatar.setImageResource(R.mipmap.avatar_6)
+//            "default" -> holder.userAvatar.setImageResource(R.mipmap.avatar_default)
+            "default" -> Glide.with(holder.itemView.context).load(R.mipmap.avatar_default).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(holder.userAvatar)
+            "1" -> Glide.with(holder.itemView.context).load(R.mipmap.avatar_1).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(holder.userAvatar)
+            "2" -> Glide.with(holder.itemView.context).load(R.mipmap.avatar_2).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(holder.userAvatar)
+            "3" -> Glide.with(holder.itemView.context).load(R.mipmap.avatar_3).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(holder.userAvatar)
+            "4" -> Glide.with(holder.itemView.context).load(R.mipmap.avatar_4).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(holder.userAvatar)
+            "5" -> Glide.with(holder.itemView.context).load(R.mipmap.avatar_5).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(holder.userAvatar)
+            "6" -> Glide.with(holder.itemView.context).load(R.mipmap.avatar_6).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(holder.userAvatar)
         }
     }
 
