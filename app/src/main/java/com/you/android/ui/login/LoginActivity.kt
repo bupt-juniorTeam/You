@@ -3,25 +3,15 @@ package com.you.android.ui.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.lxj.xpopup.XPopup
 import com.you.android.R
 import com.you.android.logic.dao.UserDao
-import com.you.android.logic.model.RoomListResponse
-import com.you.android.ui.chatroom.ChatroomViewModel
 import com.you.android.ui.homepage.HomePageActivity
-import com.you.android.ui.login.LoginViewModel
 import com.you.android.ui.register.RegisterActivity
-import com.you.android.ui.roomlist.RoomListActivity
-import com.you.android.util.LogUtil
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class LoginActivity : AppCompatActivity() {
     private val viewModel by lazy {
