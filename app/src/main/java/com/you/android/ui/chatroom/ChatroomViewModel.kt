@@ -13,6 +13,8 @@ class ChatroomViewModel() : ViewModel() {
     internal lateinit var roomName: String
 
     private val beginChatFlagLiveData = MutableLiveData<Unit>()
+    private val joinRoomFlagLiveData = MutableLiveData<Unit>()
+    private val leaveRoomFlagLiveData = MutableLiveData<Unit>()
 
     lateinit var youSocket: YouSocket
 
@@ -22,12 +24,20 @@ class ChatroomViewModel() : ViewModel() {
         youSocket.messageFromServer
     }
 
-    fun joinRoom() {
+    val joinRoomLiveData = Transformations.switchMap(joinRoomFlagLiveData) {
         Repository.joinRoom(roomName)
     }
 
-    fun leaveRoom() {
+    val leaveRoomLiveData = Transformations.switchMap(leaveRoomFlagLiveData) {
         Repository.leaveRoom(roomName)
+    }
+
+    fun joinRoom() {
+        joinRoomFlagLiveData.value = joinRoomFlagLiveData.value
+    }
+
+    fun leaveRoom() {
+        leaveRoomFlagLiveData.value = leaveRoomFlagLiveData.value
     }
 
     fun beginChat() {

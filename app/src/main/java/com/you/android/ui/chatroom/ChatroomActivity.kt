@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.you.android.R
 import com.you.android.logic.dao.UserDao
 import com.you.android.ui.homepage.HomePageActivity
+import com.you.android.util.LogUtil
 
 class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
     companion object {
@@ -73,6 +74,14 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
             }
         })
 
+        viewModel.joinRoomLiveData.observe(this, { result ->
+            val message = result.getOrNull()
+            LogUtil.i(TAG, "加入房间的http消息: " + message.toString())
+        })
+        viewModel.leaveRoomLiveData.observe(this, { result ->
+            val message = result.getOrNull()
+            LogUtil.i(TAG, "退出房间的http消息: " + message.toString())
+        })
     }
 
     // 向recycleview添加消息
@@ -87,6 +96,7 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
     private fun initRoom() {
         viewModel.roomName = intent.getStringExtra("roomName").toString()
         findViewById<TextView>(R.id.roomName).text = viewModel.roomName
+
         viewModel.joinRoom()
         viewModel.beginChat()
     }
@@ -118,6 +128,7 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
                 R.id.backButton -> {
                     intent = Intent(this, HomePageActivity::class.java)
                     startActivity(intent)
+                    onPause()
                     this.finish()
                 }
             }
