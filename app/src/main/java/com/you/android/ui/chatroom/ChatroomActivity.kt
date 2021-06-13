@@ -44,7 +44,12 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
             if (result != null) {
                 when (result.type) {
                     "msg" -> {
-                        val msg = Msg(Msg.TYPE_RECEIVED, result.data.user.user_name, result.data.msg)
+                        val msg = Msg(
+                            Msg.TYPE_RECEIVED,
+                            result.data.user.user_name,
+                            result.data.user.user_avatar,
+                            result.data.msg
+                        )
                         if (msg.userName != UserDao.getUserName()) {
                             addToView(msg)
                         }
@@ -114,7 +119,8 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
                 R.id.sendButton -> {
                     val inputText = this.findViewById<EditText>(R.id.inputText)
                     val content = inputText.text.toString()
-                    val msg = Msg(Msg.TYPE_SENT, UserDao.getUserName(), content)
+                    val msg =
+                        Msg(Msg.TYPE_SENT, UserDao.getUserName(), UserDao.getUserAvatar(), content)
                     if (content.isNotEmpty()) {
                         addToView(msg)
                         inputText.setText("")

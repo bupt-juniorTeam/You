@@ -32,15 +32,15 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         val editTextPhoneNumber: EditText = findViewById(R.id.editTextPhoneNumber)
-        // 如果userdao有值，将userdao中的user_name设为默认值
-        if (UserDao.isNameSaved()) {
-            val name = UserDao.getUserName()
-            editTextPhoneNumber.setText(name)
+        // 记住账号
+        if (UserDao.isTelSaved()) {
+            val tel = UserDao.getUserTel()
+            editTextPhoneNumber.setText(tel)
         }
         val editTextPassword: EditText = findViewById(R.id.editTextPassword)
 
         val buttonLogIn: Button = findViewById(R.id.buttonLogIn)
-        val buttonLogInRegister:Button=findViewById(R.id.buttonLogInRegister)
+        val buttonLogInRegister: Button = findViewById(R.id.buttonLogInRegister)
 
         viewModel.loginLiveData.observe(this, { result ->
             val res = result.getOrNull()
@@ -64,15 +64,15 @@ class LoginActivity : AppCompatActivity() {
             viewModel.userTel = userTel
             viewModel.userPassword = userPassword
             if (userTel.isNotEmpty() && userPassword.isNotEmpty()) {
-                // 将用户名存入userDao
-                UserDao.saveUserName(userTel)
+                // save Tel
+                UserDao.saveUserTel(userTel)
                 viewModel.logIn()
             } else
                 Toast.makeText(this, "用户名和密码不能为空", Toast.LENGTH_SHORT).show()
         }
 
         buttonLogInRegister.setOnClickListener {
-            val intent=Intent(this, RegisterActivity::class.java)
+            val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
     }

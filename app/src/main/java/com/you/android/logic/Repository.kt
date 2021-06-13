@@ -91,6 +91,16 @@ object Repository {
     fun userLogIn(userTel: String, userPassword: String) = fire(Dispatchers.IO) {
         val logInResponse = YouNetwork.userLogIn(userTel, userPassword)
         val res = logInResponse.res
+        if (res != "login successfully")
+            return@fire Result.success(res)
+        // 储存UserDao
+        var avatar = logInResponse.data.user_avatar_url
+        val name = logInResponse.data.user_name
+        if (avatar.isEmpty())
+            avatar = "default"
+        UserDao.saveUserAvatar(avatar)
+        UserDao.saveUserName(name)
+
         LogUtil.i(TAG, logInResponse.toString())
         return@fire Result.success(res)
     }
