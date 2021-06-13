@@ -26,7 +26,7 @@ class RoomListAdapter : RecyclerView.Adapter<RoomListAdapter.ViewHolder>() {
 
         viewHolder.itemView.setOnClickListener {
             val intent = Intent(view.context, ChatroomActivity::class.java)
-            intent.putExtra("roomName", viewHolder.room_name.toString())
+            intent.putExtra("roomName", viewHolder.room_name.text)
             view.context.startActivity(intent)
         }
 
