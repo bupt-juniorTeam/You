@@ -71,7 +71,6 @@ class MsgAdapter(val msgList: List<Msg>) : RecyclerView.Adapter<RecyclerView.Vie
                 holder.receiveMsg.text = msg.message
                 holder.userName.text = msg.userName
                 setAvatar(holder, msg.userAvatar)
-                holder.userAvatar.setImageResource(R.mipmap.avatar_default)
             }
             is SendViewHolder -> {
                 holder.sendMsg.text = msg.message

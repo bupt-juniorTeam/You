@@ -61,6 +61,7 @@ class HomePageActivity : AppCompatActivity() {
         val editTextSearchRoomName: EditText = findViewById(R.id.editTextSearchRoomName)
 
         val buttonCreateRoom: Button = findViewById(R.id.ButtonCreateChatRoom)
+        val buttonCreateRoom:TextView=findViewById(R.id.ButtonCreateChatRoom)
 
         val buttonSearchRoom: Button = findViewById(R.id.ButtonSearchRoom)
 
@@ -99,8 +100,8 @@ class HomePageActivity : AppCompatActivity() {
         val adapter = RoomListAdapter()
         roomRecyclerView.adapter = AlphaInAnimationAdapter(adapter)
 
-        createRoomViewModel.createRoomLiveData.observe(this, { result ->
-            val res = result.getOrNull()
+        createRoomViewModel.createRoomLiveData.observe(this,{result->
+            val res=result.getOrNull()
 
             if (res == "chatroom create successfully") {
                 Toast.makeText(this, "创建成功", Toast.LENGTH_SHORT).show()
@@ -118,11 +119,11 @@ class HomePageActivity : AppCompatActivity() {
 
         roomListViewModel.roomsLiveData.observe(this, { result ->
 //            LogUtil.i(RoomListActivity.TAG, "获取聊天室")
-            rooms = result.getOrNull()
+            val rooms = result.getOrNull()
 //            LogUtil.i(RoomListActivity.TAG, rooms.toString())
             if (rooms != null) {
                 roomListViewModel.roomList.clear()
-                roomListViewModel.roomList.addAll(rooms!!)
+                roomListViewModel.roomList.addAll(rooms)
 //                LogUtil.i(RoomListActivity.TAG, "聊天列表如下：")
 //                for (room in viewModel.roomList) {
 //                    LogUtil.i(RoomListActivity.TAG, room.name)
@@ -135,8 +136,12 @@ class HomePageActivity : AppCompatActivity() {
                 Toast.makeText(this, "暂时没有聊天室", Toast.LENGTH_SHORT).show()
                 result.exceptionOrNull()?.printStackTrace()
             }
-
+            findViewById<SwipeRefreshLayout>(R.id.refresh).isRefreshing = false
         })
+
+        findViewById<SwipeRefreshLayout>(R.id.refresh).setOnRefreshListener {
+            roomListViewModel.searchRooms()
+        }
 
         //test
         roomListViewModel.searchRooms()

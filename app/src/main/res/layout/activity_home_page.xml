@@ -5,6 +5,7 @@
     android:id="@+id/drawerLayout_person_center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorPrimary"
     android:fitsSystemWindows="true">
 
     <LinearLayout
@@ -15,61 +16,57 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_person_center"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:titleTextColor="#FFF"
+            app:titleTextColor="#FFF">
 
-            tools:ignore="MissingConstraints">
-
-            <Button
+            <TextView
                 android:id="@+id/ButtonCreateChatRoom"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="0dp"
-                android:outlineProvider="none"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:background="@mipmap/ic_plus_48sp" />
 
-                app:icon="@drawable/ic_baseline_add_24">
-
-            </Button>
 
             <EditText
-                android:id="@+id/editTextSearchRoomName"
+                android:id="@+id/roomName"
                 android:layout_width="200dp"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:layout_marginStart="40dp"
+                android:background="@drawable/send_text_background"
+                android:padding="10dp"
                 android:textColor="?attr/colorOnPrimary"
                 android:textSize="25sp" />
 
-            <Button
-                android:id="@+id/ButtonSearchRoom"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-
-                android:outlineProvider="none"
-                app:icon="@drawable/ic_search_black_17dp">
-
-            </Button>
-
-            <Button
-                android:id="@+id/mineRoomButton"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+            <TextView
+                android:id="@+id/searchRoomButton"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_marginStart="12dp"
-                android:layout_marginEnd="0dp"
-                android:outlineProvider="none"
-                app:icon="@drawable/ic_favorite_border_black_20dp">
+                android:background="@mipmap/ic_search_48sp" />
 
-            </Button>
+            <TextView
+                android:id="@+id/mineRoomButton"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginStart="12dp"
+                android:background="@mipmap/ic_heart_50sp" />
+
 
         </androidx.appcompat.widget.Toolbar>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/room_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
         <!--主页面-->
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/room_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
     </LinearLayout>
