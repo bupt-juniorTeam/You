@@ -98,6 +98,19 @@ class MsgAdapter(val msgList: List<Msg>) : RecyclerView.Adapter<RecyclerView.Vie
                 RequestOptions.bitmapTransform(RoundedCorners(24))).into(holder.userAvatar)
             "6" -> Glide.with(holder.itemView.context).load(R.mipmap.avatar_6).apply(
                 RequestOptions.bitmapTransform(RoundedCorners(24))).into(holder.userAvatar)
+            "7" -> Glide.with(holder.itemView.context).load(R.mipmap.avatar_7).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(holder.userAvatar)
+            "8" -> Glide.with(holder.itemView.context).load(R.mipmap.avatar_8).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(holder.userAvatar)
+            "9" -> Glide.with(holder.itemView.context).load(R.mipmap.avatar_9).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(holder.userAvatar)
+            "10" -> Glide.with(holder.itemView.context).load(R.mipmap.avatar_10).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(holder.userAvatar)
+            "11" -> Glide.with(holder.itemView.context).load(R.mipmap.avatar_11).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(holder.userAvatar)
+            "12" -> Glide.with(holder.itemView.context).load(R.mipmap.avatar_12).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(holder.userAvatar)
+
         }
     }
 
