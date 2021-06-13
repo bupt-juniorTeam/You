@@ -2,6 +2,8 @@ package com.you.android.ui.homepage
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
+import android.widget.Toast
 
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -19,18 +21,13 @@ import com.you.android.ui.roomlist.RoomListViewModel
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import android.view.Gravity
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.*
+import android.widget.EditText
+import android.widget.TextView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+
 import com.lxj.xpopup.XPopup
 import com.you.android.ui.chatroom.ChatroomActivity
-import com.you.android.ui.login.LoginViewModel
-import com.lxj.xpopup.interfaces.OnInputConfirmListener
-import java.security.AccessController.getContext
 
 
 class HomePageActivity : AppCompatActivity() {
@@ -45,6 +42,7 @@ class HomePageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_page)
 
+        var rooms: List<RoomListResponse.Room>?=ArrayList()
 
         var toolbar = findViewById<Toolbar>(R.id.toolbar_person_center)
 
@@ -54,18 +52,40 @@ class HomePageActivity : AppCompatActivity() {
 
         var actionBarDrawerToggle: ActionBarDrawerToggle
 
-        val buttonCreateRoom:TextView=findViewById(R.id.ButtonCreateChatRoom)
+        val editTextSearchRoomName: EditText = findViewById(R.id.textViewSearchRoomName)
+
+        val buttonCreateRoom: TextView =findViewById(R.id.ButtonCreateChatRoom)
+
+        val buttonSearchRoom: TextView = findViewById(R.id.searchRoomButton)
 
         buttonCreateRoom.setOnClickListener {
-            val poper=XPopup.Builder(this).asInputConfirm(
-                "创建聊天室", "请输入聊天室名",
-                {text:String -> createRoomViewModel.roomName=text
+            val poper = XPopup.Builder(this).asInputConfirm(
+                "创建聊天室", "请输入聊天室名"
+            ) { text: String ->
+                createRoomViewModel.roomName = text
                 createRoomViewModel.createRoom()
                 roomListViewModel.searchRooms()
-                })
+            }
                 .show()
         }
 
+        buttonSearchRoom.setOnClickListener {
+            val targetText: String = editTextSearchRoomName.text.toString()
+            var roomSearchedList = ArrayList<String>()
+            rooms?.forEach { element: RoomListResponse.Room ->
+                    if (element.name.contains(targetText)) {
+                        roomSearchedList.add(element.name)
+                    }
+            }
+            val poper = XPopup.Builder(this).asCenterList(
+                "",
+                roomSearchedList.toTypedArray()
+            ) { position: Int, text: String ->
+                val intent = Intent(this, ChatroomActivity::class.java)
+                intent.putExtra("roomName", text)
+                startActivity(intent)
+            }.show()
+        }
 
 
         val roomRecyclerView = findViewById<RecyclerView>(R.id.room_list)
@@ -92,11 +112,11 @@ class HomePageActivity : AppCompatActivity() {
 
         roomListViewModel.roomsLiveData.observe(this, { result ->
 //            LogUtil.i(RoomListActivity.TAG, "获取聊天室")
-            val rooms = result.getOrNull()
+            rooms = result.getOrNull()
 //            LogUtil.i(RoomListActivity.TAG, rooms.toString())
             if (rooms != null) {
                 roomListViewModel.roomList.clear()
-                roomListViewModel.roomList.addAll(rooms)
+                roomListViewModel.roomList.addAll(rooms!!)
 //                LogUtil.i(RoomListActivity.TAG, "聊天列表如下：")
 //                for (room in viewModel.roomList) {
 //                    LogUtil.i(RoomListActivity.TAG, room.name)
