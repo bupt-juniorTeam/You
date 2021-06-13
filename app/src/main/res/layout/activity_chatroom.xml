@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="#FAFAFA">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/chatroomBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        android:theme="@style/Theme.You">
+        android:theme="@style/Theme.You"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/backButton"
@@ -28,9 +31,6 @@
             android:textSize="25sp" />
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatArea"
@@ -39,56 +39,49 @@
         android:background="?attr/colorPrimary"
         app:layout_constraintBottom_toTopOf="@id/sendBar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/chatroomBar"
+        app:layout_constraintVertical_bias="0.0" />
 
     <LinearLayout
         android:id="@+id/sendBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@drawable/bottom_bar_background"
+
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_weight="4"
-            android:background="@drawable/send_text_background"
-            android:layout_marginStart="10dp"
-            >
-
         <EditText
             android:id="@+id/inputText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="10dp"
+            android:layout_weight="4"
             android:background="@drawable/send_text_background"
-            android:layout_marginStart="10dp"/>
+            android:paddingStart="10dp" />
 
-    </FrameLayout>
+        <ImageView
+            android:id="@+id/imageButton"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="5dp"
+            android:background="@mipmap/ic_image_button_48sp" />
 
-    <ImageView
-        android:id="@+id/imageButton"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_margin="5dp"
-        android:background="@mipmap/ic_image_button_48sp" />
-
-    <TextView
-        android:id="@+id/sendButton"
-        android:layout_width="0dp"
-        android:layout_height="35dp"
-        android:layout_marginEnd="10dp"
-        android:layout_weight="1"
-        android:background="@drawable/send_button_background"
-        android:gravity="center"
-        android:text="发送"
-        android:textColor="@color/white"
-        android:textSize="15sp" />
-
-</LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/sendButton"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/send_button_background"
+            android:gravity="center"
+            android:text="发送"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
 
     </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
