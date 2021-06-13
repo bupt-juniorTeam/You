@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.lxj.xpopup.XPopup
 import com.you.android.R
 import com.you.android.logic.dao.UserDao
 import com.you.android.logic.model.RoomListResponse
@@ -30,6 +31,9 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        val loading = XPopup.Builder(this)
+            .asLoading("绝赞请求登录中")
 
         val editTextPhoneNumber: EditText = findViewById(R.id.editTextPhoneNumber)
         // 记住账号
@@ -55,6 +59,7 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, "登录失败: $res", Toast.LENGTH_SHORT).show()
                 viewModel.flag = false
             }
+            loading.dismiss()
         })
 
 
@@ -64,7 +69,7 @@ class LoginActivity : AppCompatActivity() {
             viewModel.userTel = userTel
             viewModel.userPassword = userPassword
             if (userTel.isNotEmpty() && userPassword.isNotEmpty()) {
-                // save Tel
+                loading.show()
                 UserDao.saveUserTel(userTel)
                 viewModel.logIn()
             } else
