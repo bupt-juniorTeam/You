@@ -78,15 +78,6 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
         })
-
-        viewModel.joinRoomLiveData.observe(this, { result ->
-            val message = result.getOrNull()
-            LogUtil.i(TAG, "加入房间的http消息: " + message.toString())
-        })
-        viewModel.leaveRoomLiveData.observe(this, { result ->
-            val message = result.getOrNull()
-            LogUtil.i(TAG, "退出房间的http消息: " + message.toString())
-        })
     }
 
     // 向recycleview添加消息
@@ -102,7 +93,6 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
         viewModel.roomName = intent.getStringExtra("roomName").toString()
         findViewById<TextView>(R.id.roomName).text = viewModel.roomName
 
-        viewModel.joinRoom()
         viewModel.beginChat()
     }
 
@@ -139,7 +129,6 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onPause() {
-        viewModel.leaveRoom()
         viewModel.closeChat()
         super.onPause()
     }

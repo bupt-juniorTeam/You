@@ -124,23 +124,6 @@ object Repository {
         }
     }
 
-    fun joinRoom(roomName: String, userName: String = UserDao.getUserName()) =
-        fire(Dispatchers.IO) {
-            // 发送Http消息
-            val joinRoomResponse = YouNetwork.joinRoom(roomName, userName)
-            LogUtil.i(TAG + "JoinRoom", joinRoomResponse.toString())
-            val res = joinRoomResponse.res
-            Result.success(res)
-        }
-
-    fun leaveRoom(roomName: String, userName: String = UserDao.getUserName()) =
-        fire(Dispatchers.IO) {
-            val leaveRoomResponse = YouNetwork.leaveRoom(roomName, userName)
-            LogUtil.i(TAG + "LeaveRoom", leaveRoomResponse.toString())
-            val res = leaveRoomResponse.res
-            Result.success(res)
-        }
-
     // 辅助函数，返回一个包含有result<T>的liveData
     private fun <T> fire(context: CoroutineContext, block: suspend () -> Result<T>) =
         liveData<Result<T>>(context) {

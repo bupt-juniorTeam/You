@@ -1,6 +1,5 @@
 package com.you.android.logic.network
 
-import com.you.android.logic.model.JoinOrLeaveRoomResponse
 import com.you.android.logic.model.RegisterResponse
 import retrofit2.Call
 import retrofit2.http.GET
