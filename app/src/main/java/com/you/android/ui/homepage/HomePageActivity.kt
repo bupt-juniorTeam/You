@@ -30,8 +30,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.lxj.xpopup.XPopup
 import com.you.android.ui.chatroom.ChatroomActivity
 import com.you.android.ui.login.LoginViewModel
+import com.lxj.xpopup.interfaces.OnInputConfirmListener
+import java.security.AccessController.getContext
 
 
 class HomePageActivity : AppCompatActivity() {
@@ -58,28 +61,15 @@ class HomePageActivity : AppCompatActivity() {
         val buttonCreateRoom:Button=findViewById(R.id.ButtonCreateChatRoom)
 
         buttonCreateRoom.setOnClickListener {
-            val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            val popupWindowView = inflater.inflate(R.layout.create_room_pop_window, null)
-            val popupWindow = PopupWindow(
-                popupWindowView,
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true
-            )
-
-            val editTextTextPopWindowRoomName:EditText=popupWindowView.findViewById(R.id.editTextTextPopWindowRoomName)
-            val buttonCreateRoomIndeed:Button=popupWindowView.findViewById(R.id.buttonCreateRoomIndeed)
-
-            buttonCreateRoomIndeed.setOnClickListener {
-                val roomName=editTextTextPopWindowRoomName.text.toString()
-                createRoomViewModel.roomName=roomName
+            val poper=XPopup.Builder(this).asInputConfirm(
+                "创建聊天室", "请输入聊天室名",
+                {text:String -> createRoomViewModel.roomName=text
                 createRoomViewModel.createRoom()
-            }
-
-            popupWindow.setAnimationStyle(R.style.popupAnimation)
-            val rootview: View =
-                inflater.inflate(R.layout.activity_home_page, null)
-            popupWindow.showAtLocation(rootview,Gravity.CENTER,0,0)
-            popupWindow.update(50, 50, 1000, 1000)
+                roomListViewModel.searchRooms()
+                })
+                .show()
         }
+
 
 
         val roomRecyclerView = findViewById<RecyclerView>(R.id.room_list)

@@ -16,7 +16,6 @@
             android:id="@+id/backButton"
             android:layout_width="50sp"
             android:layout_height="wrap_content"
-
             android:outlineProvider="none"
             app:icon="@mipmap/ic_back_50sp">
 
@@ -39,38 +38,47 @@
             android:id="@+id/chatArea"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:background="?attr/colorPrimary"
             app:layout_constraintBottom_toTopOf="@id/sendBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/sendBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/bottom_bar_background"
+            android:gravity="center"
             android:orientation="horizontal"
-            android:padding="5dp"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <EditText
                 android:id="@+id/inputText"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="4" />
+                android:layout_height="35dp"
+                android:layout_marginStart="10dp"
+                android:layout_weight="4"
+                android:background="@drawable/send_text_background" />
 
             <Button
-                android:id="@+id/emojiButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:layout_weight="1"
-                android:text="表情" />
+                android:id="@+id/imageButton"
+                android:layout_width="47dp"
+                android:layout_height="47dp"
+                android:contentDescription="@string/image_button"
+                android:outlineProvider="none"
+                app:icon="@mipmap/ic_image_button_48sp" />
 
             <Button
                 android:id="@+id/sendButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
+                android:layout_height="47dp"
+                android:layout_marginEnd="10dp"
                 android:layout_weight="1"
-                android:text="发送" />
+                android:contentDescription="@string/send_desc"
+                android:enabled="false"
+                android:text="发送"
+                android:textSize="15sp" />
 
         </LinearLayout>
 
