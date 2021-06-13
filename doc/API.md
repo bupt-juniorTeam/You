@@ -53,7 +53,7 @@ http://124.70.97.253:5000/auth/login
 
 | 字段 | 内容     | 备注                                                         |
 | ---- | -------- | ------------------------------------------------------------ |
-| res  | 返回值   | user not exist：用户不存在<br />password wrong：密码错误<br />login successfully：登录成功 |
+| res  | 返回值   | user not exist：用户不存在<br />password wrong：密码错误<br />login successfully：登录成功<br />missing parameters：参数缺失 |
 | data | 返回数据 | 用户信息，成功登录时不为空                                   |
 
 #### 示例
@@ -86,9 +86,9 @@ http://124.70.97.253:5000/auth/register
 
 ### 返回值JSON
 
-| 字段 | 内容   | 备注                                                        |
-| ---- | ------ | ----------------------------------------------------------- |
-| res  | 返回值 | register successfully：注册成功<br />user exist：用户已存在 |
+| 字段 | 内容   | 备注                                                         |
+| ---- | ------ | ------------------------------------------------------------ |
+| res  | 返回值 | register successfully：注册成功<br />user exist：用户已存在<br />missing parameters：参数缺失 |
 
 #### 示例
 
@@ -150,7 +150,7 @@ http://124.70.97.253:5000/chatroom/create
 
 | 字段 | 内容     | 备注                                                         |
 | ---- | -------- | ------------------------------------------------------------ |
-| res  | 创建结果 | chatroom create successfully：成功<br />chatroom already exist：失败 |
+| res  | 创建结果 | chatroom create successfully：成功<br />chatroom already exist：失败<br />missing parameters：参数缺失 |
 
 #### 示例
 
@@ -182,7 +182,7 @@ http://124.70.97.253:5000/chatroom/room
 
 | 字段 | 内容   | 备注                                                         |
 | ---- | ------ | ------------------------------------------------------------ |
-| res  | 返回值 | join chatroom：进入聊天室<br />leave chatroom：离开聊天室<br />invalid room：聊天室不存在<br />invalid status：无法识别的状态<br />user not exist：聊天室内无该用户<br />full room：房间满员 |
+| res  | 返回值 | join chatroom：进入聊天室<br />leave chatroom：离开聊天室<br />invalid room：聊天室不存在<br />invalid status：无法识别的状态<br />user not exist：聊天室内无该用户<br />full room：房间满员<br />missing parameters：参数缺失 |
 
 #### 示例
 
