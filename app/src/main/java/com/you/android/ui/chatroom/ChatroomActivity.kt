@@ -1,25 +1,17 @@
 package com.you.android.ui.chatroom
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.you.android.R
-import com.you.android.logic.Repository
 import com.you.android.logic.dao.UserDao
-import com.you.android.logic.model.RoomListResponse
-import com.you.android.ui.roomlist.RoomListActivity
-import com.you.android.ui.roomlist.RoomListViewModel
-import com.you.android.util.LogUtil
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
     companion object {
