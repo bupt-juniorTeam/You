@@ -22,13 +22,6 @@ class ChatroomViewModel() : ViewModel() {
         youSocket.messageFromServer
     }
 
-    fun joinRoom() {
-        Repository.joinRoom(roomName)
-    }
-
-    fun leaveRoom() {
-        Repository.leaveRoom(roomName)
-    }
 
     fun beginChat() {
         beginChatFlagLiveData.value = beginChatFlagLiveData.value

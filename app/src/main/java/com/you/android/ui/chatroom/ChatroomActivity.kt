@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.you.android.R
 import com.you.android.logic.dao.UserDao
 import com.you.android.ui.homepage.HomePageActivity
+import com.you.android.util.LogUtil
 
 class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
     companion object {
@@ -43,7 +44,12 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
             if (result != null) {
                 when (result.type) {
                     "msg" -> {
-                        val msg = Msg(Msg.TYPE_RECEIVED, result.data.user_name, result.data.msg)
+                        val msg = Msg(
+                            Msg.TYPE_RECEIVED,
+                            result.data.user.user_name,
+                            result.data.user.user_avatar,
+                            result.data.msg
+                        )
                         if (msg.userName != UserDao.getUserName()) {
                             addToView(msg)
                         }
@@ -53,14 +59,14 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
                             "join" -> {
                                 Toast.makeText(
                                     this,
-                                    result.data.user_name + "进入了房间",
+                                    result.data.user.user_name + "进入了房间",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
                             "leave" -> {
                                 Toast.makeText(
                                     this,
-                                    result.data.user_name + "退出了房间",
+                                    result.data.user.user_name + "退出了房间",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -72,7 +78,6 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
         })
-
     }
 
     // 向recycleview添加消息
@@ -87,7 +92,7 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
     private fun initRoom() {
         viewModel.roomName = intent.getStringExtra("roomName").toString()
         findViewById<TextView>(R.id.roomName).text = viewModel.roomName
-        viewModel.joinRoom()
+
         viewModel.beginChat()
     }
 
@@ -104,7 +109,8 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
                 R.id.sendButton -> {
                     val inputText = this.findViewById<EditText>(R.id.inputText)
                     val content = inputText.text.toString()
-                    val msg = Msg(Msg.TYPE_SENT, UserDao.getUserName(), content)
+                    val msg =
+                        Msg(Msg.TYPE_SENT, UserDao.getUserName(), UserDao.getUserAvatar(), content)
                     if (content.isNotEmpty()) {
                         addToView(msg)
                         inputText.setText("")
@@ -116,16 +122,13 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
                 }
                 // 退出房间
                 R.id.backButton -> {
-                    intent = Intent(this, HomePageActivity::class.java)
-                    startActivity(intent)
-                    this.finish()
+                    onBackPressed()
                 }
             }
         }
     }
 
     override fun onPause() {
-        viewModel.leaveRoom()
         viewModel.closeChat()
         super.onPause()
     }

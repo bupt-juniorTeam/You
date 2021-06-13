@@ -6,18 +6,26 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.you.android.R
 import java.lang.Exception
 
 class MsgAdapter(val msgList: List<Msg>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    inner class ReceiveViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val receiveMsg: TextView = view.findViewById(R.id.receiveMessage)
-        val receiveUserName: TextView = view.findViewById(R.id.receiveUserName)
+
+    open inner class BaseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val userAvatar: ImageView = view.findViewById(R.id.avatar)
     }
 
-    inner class SendViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ReceiveViewHolder(view: View) : BaseViewHolder(view) {
+        val userName: TextView = view.findViewById(R.id.receiveUserName)
+        val receiveMsg: TextView = view.findViewById(R.id.receiveMessage)
+    }
+
+    inner class SendViewHolder(view: View) : BaseViewHolder(view) {
+        val userName: TextView = view.findViewById(R.id.sendUserName)
         val sendMsg: TextView = view.findViewById(R.id.sendMessage)
-        val sendUserName: TextView = view.findViewById(R.id.sendUserName)
     }
 
     class ImgViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -44,11 +52,13 @@ class MsgAdapter(val msgList: List<Msg>) : RecyclerView.Adapter<RecyclerView.Vie
                 SendViewHolder(view)
             }
             Msg.TYPE_SENT_IMG -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.receive_img, parent, false)
+                val view =
+                    LayoutInflater.from(parent.context).inflate(R.layout.receive_img, parent, false)
                 ImgViewHolder(view)
             }
             Msg.TYPE_RECEIVED_PICTURE -> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.send_picture, parent,false)
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.send_img, parent, false)
                 ImgViewHolder(view)
             }
             else -> throw Exception("不支持的消息类型")
@@ -59,12 +69,36 @@ class MsgAdapter(val msgList: List<Msg>) : RecyclerView.Adapter<RecyclerView.Vie
         when (holder) {
             is ReceiveViewHolder -> {
                 holder.receiveMsg.text = msg.message
-                holder.receiveUserName.text = msg.userName
+                holder.userName.text = msg.userName
+                setAvatar(holder, msg.userAvatar)
+                holder.userAvatar.setImageResource(R.mipmap.avatar_default)
             }
             is SendViewHolder -> {
                 holder.sendMsg.text = msg.message
-                holder.sendUserName.text = msg.userName
+                holder.userName.text = msg.userName
+                setAvatar(holder, msg.userAvatar)
+
             }
+        }
+    }
+
+    private fun setAvatar(holder: BaseViewHolder, avatarId: String) {
+        when (avatarId) {
+//            "default" -> holder.userAvatar.setImageResource(R.mipmap.avatar_default)
+            "default" -> Glide.with(holder.itemView.context).load(R.mipmap.avatar_default).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(holder.userAvatar)
+            "1" -> Glide.with(holder.itemView.context).load(R.mipmap.avatar_1).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(holder.userAvatar)
+            "2" -> Glide.with(holder.itemView.context).load(R.mipmap.avatar_2).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(holder.userAvatar)
+            "3" -> Glide.with(holder.itemView.context).load(R.mipmap.avatar_3).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(holder.userAvatar)
+            "4" -> Glide.with(holder.itemView.context).load(R.mipmap.avatar_4).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(holder.userAvatar)
+            "5" -> Glide.with(holder.itemView.context).load(R.mipmap.avatar_5).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(holder.userAvatar)
+            "6" -> Glide.with(holder.itemView.context).load(R.mipmap.avatar_6).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(holder.userAvatar)
         }
     }
 

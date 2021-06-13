@@ -33,7 +33,10 @@ object Repository {
         val joinMessage = WebSocketMessage(
             "join",
             WebSocketMessage.Data(
-                UserDao.getUserName(),
+                WebSocketMessage.User(
+                    UserDao.getUserName(),
+                    UserDao.getUserAvatar(),
+                ),
                 roomName,
                 ""
             )
@@ -48,7 +51,10 @@ object Repository {
         val leaveMessage = WebSocketMessage(
             "leave",
             WebSocketMessage.Data(
-                UserDao.getUserName(),
+                WebSocketMessage.User(
+                    UserDao.getUserName(),
+                    UserDao.getUserAvatar(),
+                ),
                 youSocket.roomName,
                 ""
             )
@@ -62,7 +68,10 @@ object Repository {
         val message = WebSocketMessage(
             "msg",
             WebSocketMessage.Data(
-                UserDao.getUserName(),
+                WebSocketMessage.User(
+                    UserDao.getUserName(),
+                    UserDao.getUserAvatar(),
+                ),
                 youSocket.roomName,
                 msg
             )
@@ -82,6 +91,16 @@ object Repository {
     fun userLogIn(userTel: String, userPassword: String) = fire(Dispatchers.IO) {
         val logInResponse = YouNetwork.userLogIn(userTel, userPassword)
         val res = logInResponse.res
+        if (res != "login successfully")
+            return@fire Result.success(res)
+        // 储存UserDao
+        var avatar = logInResponse.data.user_avatar_url
+        val name = logInResponse.data.user_name
+        if (avatar.isEmpty())
+            avatar = "default"
+        UserDao.saveUserAvatar(avatar)
+        UserDao.saveUserName(name)
+
         LogUtil.i(TAG, logInResponse.toString())
         return@fire Result.success(res)
     }
@@ -98,21 +117,6 @@ object Repository {
         val createRoomResponse = YouNetwork.createRoom(roomName)
         LogUtil.i(TAG, createRoomResponse.toString())
         val res=createRoomResponse.res
-        Result.success(res)
-    }
-
-    fun joinRoom(roomName: String, userName: String = UserDao.getUserName()) = fire(Dispatchers.IO) {
-        // 发送Post消息
-        val joinRoomResponse = YouNetwork.joinRoom(roomName, userName)
-        LogUtil.i(TAG, joinRoomResponse.toString())
-        val res = joinRoomResponse.res
-        Result.success(res)
-    }
-
-    fun leaveRoom(roomName: String, userName: String = UserDao.getUserName()) = fire(Dispatchers.IO) {
-        val leaveRoomResponse = YouNetwork.leaveRoom(roomName, userName)
-        LogUtil.i(TAG, leaveRoomResponse.toString())
-        val res = leaveRoomResponse.res
         Result.success(res)
     }
 

@@ -80,6 +80,7 @@ class HomePageActivity : AppCompatActivity() {
             popupWindow.update(50, 50, 1000, 1000)
         }
 
+
         val roomRecyclerView = findViewById<RecyclerView>(R.id.room_list)
         roomRecyclerView.layoutManager = LinearLayoutManager(this@HomePageActivity)
         val adapter = RoomListAdapter()
