@@ -7,7 +7,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
-import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -102,7 +101,7 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
     // 进入房间
     private fun initRoom() {
         viewModel.roomName = intent.getStringExtra("roomName").toString()
-        findViewById<TextView>(R.id.roomName).text = viewModel.roomName
+        findViewById<TextView>(R.id.chatRoomName).text = viewModel.roomName
 
         viewModel.beginChat()
     }
