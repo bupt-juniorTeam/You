@@ -2,8 +2,6 @@ package com.you.android.ui.homepage
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.Toast
 
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -23,12 +21,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import android.view.Gravity
 
-import android.widget.EditText
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupWindow
+import android.widget.*
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.lxj.xpopup.XPopup
 import com.you.android.ui.chatroom.ChatroomActivity
@@ -58,7 +54,7 @@ class HomePageActivity : AppCompatActivity() {
 
         var actionBarDrawerToggle: ActionBarDrawerToggle
 
-        val buttonCreateRoom:Button=findViewById(R.id.ButtonCreateChatRoom)
+        val buttonCreateRoom:TextView=findViewById(R.id.ButtonCreateChatRoom)
 
         buttonCreateRoom.setOnClickListener {
             val poper=XPopup.Builder(this).asInputConfirm(
