@@ -98,7 +98,7 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
                 R.id.sendButton -> {
                     val inputText = this.findViewById<EditText>(R.id.inputText)
                     val content = inputText.text.toString()
-                    val msg = Msg(Msg.TYPE_SENT, UserDao.userName, content)
+                    val msg = Msg(Msg.TYPE_SENT, UserDao.getUserName(), content)
                     if (content.isNotEmpty()) {
                         addToView(msg)
                         inputText.setText("")

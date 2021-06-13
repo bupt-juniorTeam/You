@@ -8,6 +8,8 @@ import com.you.android.logic.Repository
 class LoginViewModel : ViewModel() {
     private val flagLiveData = MutableLiveData<Unit>()
 
+    var flag = false
+
     internal lateinit var userTel: String
     internal lateinit var userPassword: String
 
