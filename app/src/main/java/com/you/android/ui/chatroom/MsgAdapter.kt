@@ -55,7 +55,7 @@ class MsgAdapter(val msgList: List<Msg>) : RecyclerView.Adapter<RecyclerView.Vie
             }
             Msg.TYPE_RECEIVED_PICTURE -> {
                 val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.send_picture, parent, false)
+                    .inflate(R.layout.send_img, parent, false)
                 ImgViewHolder(view)
             }
             else -> throw Exception("不支持的消息类型")
