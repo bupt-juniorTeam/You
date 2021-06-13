@@ -1,6 +1,7 @@
 package com.you.android.ui.homepage
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -112,11 +113,13 @@ class HomePageActivity : AppCompatActivity() {
             findViewById<SwipeRefreshLayout>(R.id.refresh).isRefreshing = false
         })
 
-        findViewById<SwipeRefreshLayout>(R.id.refresh).setOnRefreshListener {
+        findViewById<SwipeRefreshLayout>(R.id.refresh).apply {
+            setOnRefreshListener {
+                roomListViewModel.searchRooms()
+            }
+            setColorSchemeColors(Color.parseColor("#DB4D6D"),Color.parseColor("#FC9F4D"),Color.parseColor("#227D51"),Color.parseColor("#0eb0c9"))
+            //test
             roomListViewModel.searchRooms()
         }
-
-        //test
-        roomListViewModel.searchRooms()
     }
 }
