@@ -46,6 +46,10 @@ class LoginActivity : AppCompatActivity() {
             if (res == "login successfully") {
                 Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show()
                 viewModel.flag = true
+                runOnUiThread {
+                    val intent = Intent(this, HomePageActivity::class.java)
+                    startActivity(intent)
+                }
             } else {
                 Toast.makeText(this, "登录失败: $res", Toast.LENGTH_SHORT).show()
                 viewModel.flag = false
@@ -62,10 +66,6 @@ class LoginActivity : AppCompatActivity() {
                 // 将用户名存入userDao
                 UserDao.saveUserName(userTel)
                 viewModel.logIn()
-                if (viewModel.flag) {
-                    val intent = Intent(this, HomePageActivity::class.java)
-                    startActivity(intent)
-                }
             } else
                 Toast.makeText(this, "用户名和密码不能为空", Toast.LENGTH_SHORT).show()
         }
