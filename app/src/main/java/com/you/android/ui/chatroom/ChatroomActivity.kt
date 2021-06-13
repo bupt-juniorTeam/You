@@ -44,7 +44,7 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
             if (result != null) {
                 when (result.type) {
                     "msg" -> {
-                        val msg = Msg(Msg.TYPE_RECEIVED, result.data.user_name, result.data.msg)
+                        val msg = Msg(Msg.TYPE_RECEIVED, result.data.user.user_name, result.data.msg)
                         if (msg.userName != UserDao.getUserName()) {
                             addToView(msg)
                         }
@@ -54,14 +54,14 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
                             "join" -> {
                                 Toast.makeText(
                                     this,
-                                    result.data.user_name + "进入了房间",
+                                    result.data.user.user_name + "进入了房间",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
                             "leave" -> {
                                 Toast.makeText(
                                     this,
-                                    result.data.user_name + "退出了房间",
+                                    result.data.user.user_name + "退出了房间",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }

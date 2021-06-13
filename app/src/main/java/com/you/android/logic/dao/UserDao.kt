@@ -17,6 +17,10 @@ object UserDao {
         return sharedPreferences().getString("userName", "").toString()
     }
 
+    // TODO
+    fun getUserAvatar(): String {
+        return "default"
+    }
 
     fun isNameSaved() = sharedPreferences().contains("userName")
 
