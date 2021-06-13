@@ -24,13 +24,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HomePageActivity : AppCompatActivity() {
+    private val viewModel by lazy {
+        ViewModelProvider(this).get(RoomListViewModel::class.java)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_page)
 
-        val viewModel by lazy {
-            ViewModelProvider(this).get(RoomListViewModel::class.java)
-        }
 
         var toolbar = findViewById<Toolbar>(R.id.toolbar_person_center)
 

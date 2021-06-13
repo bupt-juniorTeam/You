@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.you.android.R
 import com.you.android.YouApplication
@@ -26,9 +25,9 @@ class RoomListAdapter : RecyclerView.Adapter<RoomListAdapter.ViewHolder>() {
         val viewHolder = ViewHolder(view)
 
         viewHolder.itemView.setOnClickListener {
-            val intent = Intent(YouApplication.context, ChatroomActivity::class.java)
+            val intent = Intent(view.context, ChatroomActivity::class.java)
             intent.putExtra("roomName", viewHolder.room_name.toString())
-            YouApplication.context.startActivity(intent)
+            view.context.startActivity(intent)
         }
 
         return viewHolder
