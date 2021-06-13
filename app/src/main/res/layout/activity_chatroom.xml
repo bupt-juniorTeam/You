@@ -12,14 +12,12 @@
         android:background="?attr/colorPrimary"
         android:theme="@style/Theme.You">
 
-        <Button
+        <TextView
             android:id="@+id/backButton"
-            android:layout_width="50sp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:outlineProvider="none"
-            app:icon="@mipmap/ic_back_50sp">
-
-        </Button>
+            android:background="@mipmap/ic_back_50sp"
+            android:outlineProvider="none" />
 
         <TextView
             android:id="@+id/roomName"
@@ -34,54 +32,63 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/chatArea"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chatArea"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="?attr/colorPrimary"
+        app:layout_constraintBottom_toTopOf="@id/sendBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/sendBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/bottom_bar_background"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="4"
+            android:background="@drawable/send_text_background"
+            android:layout_marginStart="10dp"
+            >
+
+        <EditText
+            android:id="@+id/inputText"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="?attr/colorPrimary"
-            app:layout_constraintBottom_toTopOf="@id/sendBar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"
+            android:background="@drawable/send_text_background"
+            android:layout_marginStart="10dp"/>
 
-        <LinearLayout
-            android:id="@+id/sendBar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@drawable/bottom_bar_background"
-            android:gravity="center"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent">
+    </FrameLayout>
 
-            <EditText
-                android:id="@+id/inputText"
-                android:layout_width="0dp"
-                android:layout_height="35dp"
-                android:layout_marginStart="10dp"
-                android:layout_weight="4"
-                android:background="@drawable/send_text_background" />
+    <ImageView
+        android:id="@+id/imageButton"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_margin="5dp"
+        android:background="@mipmap/ic_image_button_48sp" />
 
-            <Button
-                android:id="@+id/imageButton"
-                android:layout_width="47dp"
-                android:layout_height="47dp"
-                android:contentDescription="@string/image_button"
-                android:outlineProvider="none"
-                app:icon="@mipmap/ic_image_button_48sp" />
+    <TextView
+        android:id="@+id/sendButton"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="10dp"
+        android:layout_weight="1"
+        android:background="@drawable/send_button_background"
+        android:gravity="center"
+        android:text="发送"
+        android:textColor="@color/white"
+        android:textSize="15sp" />
 
-            <Button
-                android:id="@+id/sendButton"
-                android:layout_width="0dp"
-                android:layout_height="47dp"
-                android:layout_marginEnd="10dp"
-                android:layout_weight="1"
-                android:contentDescription="@string/send_desc"
-                android:enabled="false"
-                android:text="发送"
-                android:textSize="15sp" />
-
-        </LinearLayout>
+</LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</LinearLayout>
+    </LinearLayout>

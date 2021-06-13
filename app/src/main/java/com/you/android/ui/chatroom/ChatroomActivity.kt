@@ -1,20 +1,19 @@
 package com.you.android.ui.chatroom
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doAfterTextChanged
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.you.android.R
 import com.you.android.logic.dao.UserDao
-import com.you.android.ui.homepage.HomePageActivity
-import com.you.android.util.LogUtil
+
 
 class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
     companion object {
@@ -22,6 +21,7 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private lateinit var adapter: MsgAdapter
+    private var sendFlag = false
     private val viewModel by lazy {
         ViewModelProvider(this).get(ChatroomViewModel::class.java)
     }
@@ -38,7 +38,18 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
             adapter = MsgAdapter(viewModel.msgList)
         recyclerView.adapter = adapter
 
-
+        val inputText = this.findViewById<EditText>(R.id.inputText)
+        inputText.doAfterTextChanged {
+            if(inputText.text.isEmpty()){
+                sendFlag = false
+                val sendButton: TextView = findViewById(R.id.sendButton)
+                sendButton.setBackgroundResource(R.drawable.send_button_background)
+            }else{
+                sendFlag = true
+                val sendButton: TextView = findViewById(R.id.sendButton)
+                sendButton.setBackgroundResource(R.drawable.send_button_background_active)
+            }
+        }
         // observe
         viewModel.beginChatLiveData.observe(this, { result ->
             if (result != null) {
@@ -97,8 +108,8 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun setOnClick() {
-        val sendButton = findViewById<Button>(R.id.sendButton)
-        val backButton = findViewById<Button>(R.id.backButton)
+        val sendButton = findViewById<TextView>(R.id.sendButton)
+        val backButton = findViewById<TextView>(R.id.backButton)
         sendButton.setOnClickListener(this)
         backButton.setOnClickListener(this)
     }
@@ -107,17 +118,24 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
         if (v != null) {
             when (v.id) {
                 R.id.sendButton -> {
-                    val inputText = this.findViewById<EditText>(R.id.inputText)
-                    val content = inputText.text.toString()
-                    val msg =
-                        Msg(Msg.TYPE_SENT, UserDao.getUserName(), UserDao.getUserAvatar(), content)
-                    if (content.isNotEmpty()) {
-                        addToView(msg)
-                        inputText.setText("")
-                        // 将消息发送给服务器
-                        viewModel.sendMessage(content)
-                    } else {
-                        Toast.makeText(this, "不能发送空消息", Toast.LENGTH_SHORT).show()
+                    if (sendFlag) {
+                        val inputText = this.findViewById<EditText>(R.id.inputText)
+                        val content = inputText.text.toString()
+                        val msg =
+                            Msg(
+                                Msg.TYPE_SENT,
+                                UserDao.getUserName(),
+                                UserDao.getUserAvatar(),
+                                content
+                            )
+                        if (content.isNotEmpty()) {
+                            addToView(msg)
+                            inputText.setText("")
+                            // 将消息发送给服务器
+                            viewModel.sendMessage(content)
+                        } else {
+                            Toast.makeText(this, "不能发送空消息", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
                 // 退出房间
