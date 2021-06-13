@@ -1,5 +1,6 @@
 package com.you.android.ui.chatroom
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.you.android.R
 import com.you.android.logic.dao.UserDao
+import com.you.android.ui.homepage.HomePageActivity
 
 class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
     companion object {
@@ -38,33 +40,35 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
 
         // observe
         viewModel.beginChatLiveData.observe(this, { result ->
-            when (result.type) {
-                "msg" -> {
-                    val msg = Msg(Msg.TYPE_RECEIVED, result.data.user_name, result.data.msg)
-                    if(msg.userName!=UserDao.getUserName()){
-                        addToView(msg)
-                    }
-                }
-                "user" -> {
-                    when (result.data.msg) {
-                        "join" -> {
-                            Toast.makeText(
-                                this,
-                                result.data.user_name + "进入了房间",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                        "leave" -> {
-                            Toast.makeText(
-                                this,
-                                result.data.user_name + "退出了房间",
-                                Toast.LENGTH_SHORT
-                            ).show()
+            if (result != null) {
+                when (result.type) {
+                    "msg" -> {
+                        val msg = Msg(Msg.TYPE_RECEIVED, result.data.user_name, result.data.msg)
+                        if (msg.userName != UserDao.getUserName()) {
+                            addToView(msg)
                         }
                     }
-                }
-                "error" -> {
-                    Toast.makeText(this, "error: " + result.data.msg, Toast.LENGTH_SHORT).show()
+                    "user" -> {
+                        when (result.data.msg) {
+                            "join" -> {
+                                Toast.makeText(
+                                    this,
+                                    result.data.user_name + "进入了房间",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            "leave" -> {
+                                Toast.makeText(
+                                    this,
+                                    result.data.user_name + "退出了房间",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
+                    "error" -> {
+                        Toast.makeText(this, "error: " + result.data.msg, Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         })
@@ -114,6 +118,8 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
                 R.id.backButton -> {
                     viewModel.leaveRoom()
                     viewModel.closeChat()
+                    intent = Intent(this, HomePageActivity::class.java)
+                    startActivity(intent)
                     this.finish()
                 }
             }
