@@ -3,9 +3,11 @@ package com.you.android.ui.chatroom
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.you.android.R
+import java.lang.Exception
 
 class MsgAdapter(val msgList: List<Msg>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     inner class ReceiveViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -18,20 +20,38 @@ class MsgAdapter(val msgList: List<Msg>) : RecyclerView.Adapter<RecyclerView.Vie
         val sendUserName: TextView = view.findViewById(R.id.sendUserName)
     }
 
+    class ImgViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val userName: ImageView = view.findViewById(R.id.imageView)
+    }
+
     override fun getItemViewType(position: Int): Int {
         val msg = msgList[position]
         return msg.type
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        if (viewType == Msg.TYPE_RECEIVED) {
-            val view =
-                LayoutInflater.from(parent.context).inflate(R.layout.receive_message, parent, false)
-            ReceiveViewHolder(view)
-        } else {
-            val view =
-                LayoutInflater.from(parent.context).inflate(R.layout.send_message, parent, false)
-            SendViewHolder(view)
+        when (viewType) {
+            Msg.TYPE_RECEIVED -> {
+                val view =
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.receive_message, parent, false)
+                ReceiveViewHolder(view)
+            }
+            Msg.TYPE_SENT -> {
+                val view =
+                    LayoutInflater.from(parent.context)
+                        .inflate(R.layout.send_message, parent, false)
+                SendViewHolder(view)
+            }
+            Msg.TYPE_SENT_IMG -> {
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.receive_img, parent, false)
+                ImgViewHolder(view)
+            }
+            Msg.TYPE_RECEIVED_PICTURE -> {
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.send_picture, parent,false)
+                ImgViewHolder(view)
+            }
+            else -> throw Exception("不支持的消息类型")
         }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
