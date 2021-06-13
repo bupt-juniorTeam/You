@@ -46,6 +46,7 @@ class HomePageActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+
         val roomRecyclerView = findViewById<RecyclerView>(R.id.room_list)
         roomRecyclerView.layoutManager = LinearLayoutManager(this@HomePageActivity)
         val adapter = RoomListAdapter()

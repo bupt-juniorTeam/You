@@ -126,10 +126,7 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
                 }
                 // 退出房间
                 R.id.backButton -> {
-                    intent = Intent(this, HomePageActivity::class.java)
-                    startActivity(intent)
-                    onPause()
-                    this.finish()
+                    onBackPressed()
                 }
             }
         }
