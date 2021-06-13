@@ -31,9 +31,10 @@ class RegisterActivity : AppCompatActivity() {
             val res=result.getOrNull()
             if(res=="register successfully"){
                 Toast.makeText(this,"注册成功",Toast.LENGTH_SHORT).show()
+                finish()
             }
             else{
-                Toast.makeText(this,"注册失败",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"该手机号已被注册",Toast.LENGTH_SHORT).show()
             }
         })
 
