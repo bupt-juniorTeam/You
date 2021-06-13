@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -7,33 +6,41 @@
     android:padding="10dp">
 
     <TextView
-        android:id="@+id/receiveUserName"
+        android:id="@+id/sendUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="test"
-        app:layout_constraintLeft_toRightOf="@id/avatar"
+        app:layout_constraintRight_toLeftOf="@id/avatar"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/messageLayout"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_toStartOf="@id/avatar"-->
+    <!--        android:background="@mipmap/send_message"-->
+    <!--        app:layout_constraintRight_toLeftOf="@id/avatar"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/sendUserName">-->
+
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/sendMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="3dp"
+        android:maxWidth="200dp"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:paddingBottom="5dp"
-        android:maxWidth="200dp"
         android:textColor="@color/white"
-        android:background="@mipmap/receive_message"
-        app:layout_constraintLeft_toRightOf="@id/avatar"
-        app:layout_constraintTop_toBottomOf="@id/receiveUserName"/>
-
+        android:background="@mipmap/send_message"
+        app:layout_constraintRight_toLeftOf="@id/avatar"
+        app:layout_constraintTop_toBottomOf="@id/sendUserName"/>
+    <!--    </LinearLayout>-->
 
     <ImageView
         android:id="@+id/avatar"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
