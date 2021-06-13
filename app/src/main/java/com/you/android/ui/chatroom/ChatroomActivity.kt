@@ -116,13 +116,17 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
                 }
                 // 退出房间
                 R.id.backButton -> {
-                    viewModel.leaveRoom()
-                    viewModel.closeChat()
                     intent = Intent(this, HomePageActivity::class.java)
                     startActivity(intent)
                     this.finish()
                 }
             }
         }
+    }
+
+    override fun onPause() {
+        viewModel.leaveRoom()
+        viewModel.closeChat()
+        super.onPause()
     }
 }
