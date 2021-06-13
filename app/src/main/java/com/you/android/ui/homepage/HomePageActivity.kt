@@ -21,19 +21,13 @@ import com.you.android.ui.roomlist.RoomListViewModel
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import android.view.Gravity
 
 import android.widget.EditText
+import android.widget.TextView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.PopupWindow
 import com.lxj.xpopup.XPopup
 import com.you.android.ui.chatroom.ChatroomActivity
-import com.you.android.ui.login.LoginViewModel
-import com.lxj.xpopup.interfaces.OnInputConfirmListener
-import java.security.AccessController.getContext
 
 
 class HomePageActivity : AppCompatActivity() {
@@ -58,12 +52,11 @@ class HomePageActivity : AppCompatActivity() {
 
         var actionBarDrawerToggle: ActionBarDrawerToggle
 
-        val editTextSearchRoomName: EditText = findViewById(R.id.editTextSearchRoomName)
+        val editTextSearchRoomName: EditText = findViewById(R.id.textViewSearchRoomName)
 
-        val buttonCreateRoom: Button = findViewById(R.id.ButtonCreateChatRoom)
-        val buttonCreateRoom:TextView=findViewById(R.id.ButtonCreateChatRoom)
+        val buttonCreateRoom: TextView =findViewById(R.id.ButtonCreateChatRoom)
 
-        val buttonSearchRoom: Button = findViewById(R.id.ButtonSearchRoom)
+        val buttonSearchRoom: TextView = findViewById(R.id.searchRoomButton)
 
         buttonCreateRoom.setOnClickListener {
             val poper = XPopup.Builder(this).asInputConfirm(
@@ -119,11 +112,11 @@ class HomePageActivity : AppCompatActivity() {
 
         roomListViewModel.roomsLiveData.observe(this, { result ->
 //            LogUtil.i(RoomListActivity.TAG, "获取聊天室")
-            val rooms = result.getOrNull()
+            rooms = result.getOrNull()
 //            LogUtil.i(RoomListActivity.TAG, rooms.toString())
             if (rooms != null) {
                 roomListViewModel.roomList.clear()
-                roomListViewModel.roomList.addAll(rooms)
+                roomListViewModel.roomList.addAll(rooms!!)
 //                LogUtil.i(RoomListActivity.TAG, "聊天列表如下：")
 //                for (room in viewModel.roomList) {
 //                    LogUtil.i(RoomListActivity.TAG, room.name)
