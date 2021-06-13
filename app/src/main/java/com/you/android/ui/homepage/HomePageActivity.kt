@@ -29,6 +29,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.you.android.ui.chatroom.ChatroomActivity
 import com.you.android.ui.login.LoginViewModel
 
@@ -122,8 +123,12 @@ class HomePageActivity : AppCompatActivity() {
                 Toast.makeText(this, "暂时没有聊天室", Toast.LENGTH_SHORT).show()
                 result.exceptionOrNull()?.printStackTrace()
             }
-
+            findViewById<SwipeRefreshLayout>(R.id.refresh).isRefreshing = false
         })
+
+        findViewById<SwipeRefreshLayout>(R.id.refresh).setOnRefreshListener {
+            roomListViewModel.searchRooms()
+        }
 
         //test
         roomListViewModel.searchRooms()
