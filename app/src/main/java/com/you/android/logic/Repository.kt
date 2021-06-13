@@ -71,12 +71,17 @@ object Repository {
     }
     // ----------
 
+    fun userRegister(userTel: String, userName: String, userPassword: String) =
+        fire(Dispatchers.IO) {
+            val registerResponse = YouNetwork.userRegister(userTel, userName, userPassword)
+            LogUtil.i(TAG, registerResponse.toString())
+            val res = registerResponse.res
+            return@fire Result.success(res)
+        }
+
     fun userLogIn(userTel: String, userPassword: String) = fire(Dispatchers.IO) {
-        LogUtil.e(TAG, "Repository login.")
         val logInResponse = YouNetwork.userLogIn(userTel, userPassword)
         val res = logInResponse.res
-        Log.d("asd", "here!")
-        Log.d("asd", res)
         LogUtil.i(TAG, logInResponse.toString())
         return@fire Result.success(res)
     }

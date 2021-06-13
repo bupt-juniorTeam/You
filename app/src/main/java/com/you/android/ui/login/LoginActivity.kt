@@ -1,5 +1,6 @@
 package com.you.android.ui.login
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +13,7 @@ import com.you.android.R
 import com.you.android.logic.model.RoomListResponse
 import com.you.android.ui.chatroom.ChatroomViewModel
 import com.you.android.ui.login.LoginViewModel
+import com.you.android.ui.register.RegisterActivity
 import com.you.android.ui.roomlist.RoomListActivity
 import com.you.android.util.LogUtil
 import kotlinx.coroutines.Dispatchers
@@ -30,7 +32,7 @@ class LoginActivity : AppCompatActivity() {
         val editTextPassword: EditText = findViewById(R.id.editTextPassword)
 
         val buttonLogIn: Button = findViewById(R.id.buttonLogIn)
-
+        val buttonLogInRegister:Button=findViewById(R.id.buttonLogInRegister)
 
         viewModel.loginLiveData.observe(this, { result ->
             val res = result.getOrNull()
@@ -51,6 +53,11 @@ class LoginActivity : AppCompatActivity() {
                 viewModel.logIn()
             else
                 Toast.makeText(this, "用户名和密码不能为空", Toast.LENGTH_SHORT).show()
+        }
+
+        buttonLogInRegister.setOnClickListener {
+            val intent=Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
         }
     }
 }

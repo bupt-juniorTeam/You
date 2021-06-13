@@ -17,11 +17,16 @@ object YouNetwork {
     // ----------------------
     private val logInService=ServiceCreator.create<LogInService>()
 
+    private val RegisterService=ServiceCreator.create<RegisterService>()
+
     private val roomListService = ServiceCreator.create<RoomListService>()
 
     private val createRoomService = ServiceCreator.create<CreateRoomService>()
 
     private val joinOrLeaveRoomService = ServiceCreator.create<JoinOrLeaveRoomService>()
+
+    suspend fun userRegister(userTel:String,userName: String, userPassword:String)=
+        RegisterService.register(userTel,userName,userPassword).await()
 
     suspend fun userLogIn(userTel:String, userPassword:String)=
         logInService.logIn(userTel,userPassword).await()
