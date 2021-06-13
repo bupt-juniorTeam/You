@@ -8,5 +8,5 @@
         android:fromAlpha="0"
         android:repeatCount="0"
         android:toAlpha="1" />
-2
+
 </set>

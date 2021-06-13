@@ -22,14 +22,14 @@
             tools:ignore="MissingConstraints">
 
             <Button
-                android:id="@+id/personCenterButton"
+                android:id="@+id/ButtonCreateChatRoom"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="0dp"
                 android:outlineProvider="none"
 
-                app:icon="@drawable/ic_baseline_more_horiz_30">
+                app:icon="@drawable/ic_baseline_add_24">
 
             </Button>
 

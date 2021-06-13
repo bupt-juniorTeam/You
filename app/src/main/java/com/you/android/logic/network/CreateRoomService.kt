@@ -10,6 +10,6 @@ import retrofit2.http.Query
 interface CreateRoomService {
     @GET("chatroom/create")
     fun createRoom(
-        @Query("name") name:String
+        @Query("room_name") room_name:String
     ): Call<CreateRoomResponse>
 }

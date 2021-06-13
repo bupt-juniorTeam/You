@@ -97,12 +97,8 @@ object Repository {
         // 发送Post消息
         val createRoomResponse = YouNetwork.createRoom(roomName)
         LogUtil.i(TAG, createRoomResponse.toString())
-        if (createRoomResponse.status == Status.SUCCESS.value) {
-            val roomName = createRoomResponse.name
-            return@fire Result.success(roomName)
-        } else {
-            return@fire Result.failure<String>(Exception("创建失败"))
-        }
+        val res=createRoomResponse.res
+        Result.success(res)
     }
 
     fun joinRoom(roomName: String, userName: String = UserDao.getUserName()) = fire(Dispatchers.IO) {

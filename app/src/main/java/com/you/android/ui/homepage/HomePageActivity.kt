@@ -16,16 +16,29 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import com.you.android.R
 import com.you.android.logic.model.RoomListResponse
-import com.you.android.ui.roomlist.RoomListActivity
 import com.you.android.ui.roomlist.RoomListAdapter
 import com.you.android.ui.roomlist.RoomListViewModel
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import android.view.Gravity
+
+import android.widget.EditText
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.PopupWindow
+import com.you.android.ui.chatroom.ChatroomActivity
+import com.you.android.ui.login.LoginViewModel
+
 
 class HomePageActivity : AppCompatActivity() {
-    private val viewModel by lazy {
+    private val roomListViewModel by lazy {
         ViewModelProvider(this).get(RoomListViewModel::class.java)
+    }
+    private val createRoomViewModel by lazy {
+        ViewModelProvider(this).get(CreateRoomViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,9 +54,30 @@ class HomePageActivity : AppCompatActivity() {
 
         var actionBarDrawerToggle: ActionBarDrawerToggle
 
-        findViewById<Button>(R.id.searchRoomButton).setOnClickListener {
-            val intent: Intent = Intent(this, RoomListActivity::class.java)
-            startActivity(intent)
+        val buttonCreateRoom:Button=findViewById(R.id.ButtonCreateChatRoom)
+
+        buttonCreateRoom.setOnClickListener {
+            val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val popupWindowView = inflater.inflate(R.layout.create_room_pop_window, null)
+            val popupWindow = PopupWindow(
+                popupWindowView,
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true
+            )
+
+            val editTextTextPopWindowRoomName:EditText=popupWindowView.findViewById(R.id.editTextTextPopWindowRoomName)
+            val buttonCreateRoomIndeed:Button=popupWindowView.findViewById(R.id.buttonCreateRoomIndeed)
+
+            buttonCreateRoomIndeed.setOnClickListener {
+                val roomName=editTextTextPopWindowRoomName.text.toString()
+                createRoomViewModel.roomName=roomName
+                createRoomViewModel.createRoom()
+            }
+
+            popupWindow.setAnimationStyle(R.style.popupAnimation)
+            val rootview: View =
+                inflater.inflate(R.layout.activity_home_page, null)
+            popupWindow.showAtLocation(rootview,Gravity.CENTER,0,0)
+            popupWindow.update(50, 50, 1000, 1000)
         }
 
         val roomRecyclerView = findViewById<RecyclerView>(R.id.room_list)
@@ -51,13 +85,30 @@ class HomePageActivity : AppCompatActivity() {
         val adapter = RoomListAdapter()
         roomRecyclerView.adapter = AlphaInAnimationAdapter(adapter)
 
-        viewModel.roomsLiveData.observe(this, { result ->
+        createRoomViewModel.createRoomLiveData.observe(this,{result->
+            val res=result.getOrNull()
+
+            if (res == "chatroom create successfully") {
+                Toast.makeText(this, "创建成功", Toast.LENGTH_SHORT).show()
+                createRoomViewModel.flag = true
+                runOnUiThread {
+                    val intent = Intent(this, ChatroomActivity::class.java)
+                    intent.putExtra("roomName", createRoomViewModel.roomName)
+                    startActivity(intent)
+                }
+            } else {
+                Toast.makeText(this, "创建失败: $res", Toast.LENGTH_SHORT).show()
+                createRoomViewModel.flag = false
+            }
+        })
+
+        roomListViewModel.roomsLiveData.observe(this, { result ->
 //            LogUtil.i(RoomListActivity.TAG, "获取聊天室")
             val rooms = result.getOrNull()
 //            LogUtil.i(RoomListActivity.TAG, rooms.toString())
             if (rooms != null) {
-                viewModel.roomList.clear()
-                viewModel.roomList.addAll(rooms)
+                roomListViewModel.roomList.clear()
+                roomListViewModel.roomList.addAll(rooms)
 //                LogUtil.i(RoomListActivity.TAG, "聊天列表如下：")
 //                for (room in viewModel.roomList) {
 //                    LogUtil.i(RoomListActivity.TAG, room.name)
@@ -74,6 +125,6 @@ class HomePageActivity : AppCompatActivity() {
         })
 
         //test
-        viewModel.searchRooms()
+        roomListViewModel.searchRooms()
     }
 }

@@ -29,7 +29,6 @@ class RoomListAdapter : RecyclerView.Adapter<RoomListAdapter.ViewHolder>() {
             intent.putExtra("roomName", viewHolder.room_name.text)
             view.context.startActivity(intent)
         }
-
         return viewHolder
     }
 
