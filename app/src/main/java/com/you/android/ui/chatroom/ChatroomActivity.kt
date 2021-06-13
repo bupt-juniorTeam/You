@@ -41,7 +41,9 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
             when (result.type) {
                 "msg" -> {
                     val msg = Msg(Msg.TYPE_RECEIVED, result.data.user_name, result.data.msg)
-                    addToView(msg)
+                    if(msg.userName!=UserDao.getUserName()){
+                        addToView(msg)
+                    }
                 }
                 "user" -> {
                     when (result.data.msg) {
