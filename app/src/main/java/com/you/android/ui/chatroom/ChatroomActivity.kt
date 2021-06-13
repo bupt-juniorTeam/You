@@ -1,6 +1,5 @@
 package com.you.android.ui.chatroom
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -13,8 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.you.android.R
 import com.you.android.logic.dao.UserDao
-import com.you.android.ui.homepage.HomePageActivity
-import com.you.android.util.LogUtil
 
 class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
     companion object {
@@ -91,7 +88,7 @@ class ChatroomActivity : AppCompatActivity(), View.OnClickListener {
     // 进入房间
     private fun initRoom() {
         viewModel.roomName = intent.getStringExtra("roomName").toString()
-        findViewById<TextView>(R.id.roomName).text = viewModel.roomName
+        findViewById<TextView>(R.id.editTextSearchRoomName).text = viewModel.roomName
 
         viewModel.beginChat()
     }

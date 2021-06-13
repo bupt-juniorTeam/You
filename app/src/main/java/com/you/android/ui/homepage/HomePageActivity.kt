@@ -48,6 +48,7 @@ class HomePageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_page)
 
+        var rooms: List<RoomListResponse.Room>?=ArrayList()
 
         var toolbar = findViewById<Toolbar>(R.id.toolbar_person_center)
 
@@ -57,18 +58,40 @@ class HomePageActivity : AppCompatActivity() {
 
         var actionBarDrawerToggle: ActionBarDrawerToggle
 
-        val buttonCreateRoom:Button=findViewById(R.id.ButtonCreateChatRoom)
+        val editTextSearchRoomName: EditText = findViewById(R.id.editTextSearchRoomName)
+
+        val buttonCreateRoom: Button = findViewById(R.id.ButtonCreateChatRoom)
+
+        val buttonSearchRoom: Button = findViewById(R.id.ButtonSearchRoom)
 
         buttonCreateRoom.setOnClickListener {
-            val poper=XPopup.Builder(this).asInputConfirm(
-                "创建聊天室", "请输入聊天室名",
-                {text:String -> createRoomViewModel.roomName=text
+            val poper = XPopup.Builder(this).asInputConfirm(
+                "创建聊天室", "请输入聊天室名"
+            ) { text: String ->
+                createRoomViewModel.roomName = text
                 createRoomViewModel.createRoom()
                 roomListViewModel.searchRooms()
-                })
+            }
                 .show()
         }
 
+        buttonSearchRoom.setOnClickListener {
+            val targetText: String = editTextSearchRoomName.text.toString()
+            var roomSearchedList = ArrayList<String>()
+            rooms?.forEach { element: RoomListResponse.Room ->
+                    if (element.name.contains(targetText)) {
+                        roomSearchedList.add(element.name)
+                    }
+            }
+            val poper = XPopup.Builder(this).asCenterList(
+                "",
+                roomSearchedList.toTypedArray()
+            ) { position: Int, text: String ->
+                val intent = Intent(this, ChatroomActivity::class.java)
+                intent.putExtra("roomName", text)
+                startActivity(intent)
+            }.show()
+        }
 
 
         val roomRecyclerView = findViewById<RecyclerView>(R.id.room_list)
@@ -76,8 +99,8 @@ class HomePageActivity : AppCompatActivity() {
         val adapter = RoomListAdapter()
         roomRecyclerView.adapter = AlphaInAnimationAdapter(adapter)
 
-        createRoomViewModel.createRoomLiveData.observe(this,{result->
-            val res=result.getOrNull()
+        createRoomViewModel.createRoomLiveData.observe(this, { result ->
+            val res = result.getOrNull()
 
             if (res == "chatroom create successfully") {
                 Toast.makeText(this, "创建成功", Toast.LENGTH_SHORT).show()
@@ -95,11 +118,11 @@ class HomePageActivity : AppCompatActivity() {
 
         roomListViewModel.roomsLiveData.observe(this, { result ->
 //            LogUtil.i(RoomListActivity.TAG, "获取聊天室")
-            val rooms = result.getOrNull()
+            rooms = result.getOrNull()
 //            LogUtil.i(RoomListActivity.TAG, rooms.toString())
             if (rooms != null) {
                 roomListViewModel.roomList.clear()
-                roomListViewModel.roomList.addAll(rooms)
+                roomListViewModel.roomList.addAll(rooms!!)
 //                LogUtil.i(RoomListActivity.TAG, "聊天列表如下：")
 //                for (room in viewModel.roomList) {
 //                    LogUtil.i(RoomListActivity.TAG, room.name)

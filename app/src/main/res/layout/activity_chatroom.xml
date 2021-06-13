@@ -23,7 +23,7 @@
         </Button>
 
         <TextView
-            android:id="@+id/roomName"
+            android:id="@+id/editTextSearchRoomName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
