@@ -26,9 +26,11 @@ import kotlinx.coroutines.launch
 import android.widget.EditText
 import android.widget.TextView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 import com.lxj.xpopup.XPopup
 import com.you.android.ui.chatroom.ChatroomActivity
+import kotlin.random.Random
 
 
 class HomePageActivity : AppCompatActivity() {
@@ -55,9 +57,11 @@ class HomePageActivity : AppCompatActivity() {
 
         val editTextSearchRoomName: EditText = findViewById(R.id.textViewSearchRoomName)
 
-        val buttonCreateRoom: TextView =findViewById(R.id.ButtonCreateChatRoom)
+        val buttonCreateRoom: FloatingActionButton =findViewById(R.id.ButtonCreateChatRoom)
 
         val buttonSearchRoom: TextView = findViewById(R.id.searchRoomButton)
+
+        val buttonRandomRoom: TextView=findViewById(R.id.ButtonRandomRoom)
 
         buttonCreateRoom.setOnClickListener {
             val poper = XPopup.Builder(this).asInputConfirm(
@@ -86,6 +90,19 @@ class HomePageActivity : AppCompatActivity() {
                 intent.putExtra("roomName", text)
                 startActivity(intent)
             }.show()
+        }
+
+        buttonRandomRoom.setOnClickListener {
+            if(rooms.isNullOrEmpty()){
+                Toast.makeText(this, "当前没有聊天室", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                val randomNumber=(0..rooms!!.size-1).random()
+                val intent = Intent(this, ChatroomActivity::class.java)
+                intent.putExtra("roomName", rooms!![randomNumber].name)
+                startActivity(intent)
+            }
+
         }
 
 
