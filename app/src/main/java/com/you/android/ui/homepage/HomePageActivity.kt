@@ -18,12 +18,17 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.lxj.xpopup.XPopup
 import com.you.android.R
+import com.you.android.logic.dao.UserDao
 import com.you.android.logic.model.RoomListResponse
 import com.you.android.ui.chatroom.ChatroomActivity
+import com.you.android.ui.chatroom.MsgAdapter
 import com.you.android.ui.roomlist.RoomListAdapter
 import com.you.android.ui.roomlist.RoomListViewModel
 import eightbitlab.com.blurview.BlurView
@@ -47,13 +52,22 @@ class HomePageActivity : AppCompatActivity() {
 
         var rooms: List<RoomListResponse.Room>?=ArrayList()
 
-        var toolbar = findViewById<Toolbar>(R.id.toolbar_person_center)
 
-        val drawer = findViewById<DrawerLayout>(R.id.drawerLayout_person_center)
+        val navigationView = findViewById<NavigationView>(R.id.navigationView_person_center)
 
-        var navigationView = findViewById<NavigationView>(R.id.navigationView_person_center)
 
-        var actionBarDrawerToggle: ActionBarDrawerToggle
+        setProperty(UserDao.getUserAvatar(),navigationView)
+
+
+
+//        Glide.with(this).load(R.mipmap.avatar_default).apply(
+//            RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+//
+
+        val toolbar = findViewById<Toolbar>(R.id.toolbar_person_center)
+
+        val drawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout_person_center)
+
 
         val editTextSearchRoomName: EditText = findViewById(R.id.textViewSearchRoomName)
 
@@ -173,4 +187,48 @@ class HomePageActivity : AppCompatActivity() {
             .setBlurAutoUpdate(true)
             .setHasFixedTransformationMatrix(true)
     }
+
+    private fun setProperty( avatarId: String,navigationView: NavigationView) {
+
+        val header=navigationView.inflateHeaderView(R.layout.header_person_center)
+        val userName=header.findViewById<TextView>(R.id.person_center_name)
+        val userPhone=header.findViewById<TextView>(R.id.person_center_phone)
+        val userAvatar=header.findViewById<de.hdodenhof.circleimageview.CircleImageView>(R.id.person_center_avatar)
+
+        userName.text= UserDao.getUserName()
+        userPhone.text= UserDao.getUserTel()
+
+        when (avatarId) {
+//            "default" -> holder.userAvatar.setImageResource(R.mipmap.avatar_default)
+            "default" -> Glide.with(this).load(R.mipmap.avatar_default).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+            "1" -> Glide.with(this).load(R.mipmap.avatar_1).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+            "2" -> Glide.with(this).load(R.mipmap.avatar_2).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+            "3" -> Glide.with(this).load(R.mipmap.avatar_3).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+            "4" -> Glide.with(this).load(R.mipmap.avatar_4).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+            "5" -> Glide.with(this).load(R.mipmap.avatar_5).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+            "6" -> Glide.with(this).load(R.mipmap.avatar_6).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+            "7" -> Glide.with(this).load(R.mipmap.avatar_7).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+            "8" -> Glide.with(this).load(R.mipmap.avatar_8).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+            "9" -> Glide.with(this).load(R.mipmap.avatar_9).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+            "10" -> Glide.with(this).load(R.mipmap.avatar_10).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+            "11" -> Glide.with(this).load(R.mipmap.avatar_11).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+            "12" -> Glide.with(this).load(R.mipmap.avatar_12).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+
+        }
+    }
+
+
 }

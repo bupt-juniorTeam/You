@@ -108,7 +108,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:headerLayout="@layout/activity_person_center"
         app:insetForeground="@android:color/transparent"
         app:menu="@menu/menu_person_info" >
 
