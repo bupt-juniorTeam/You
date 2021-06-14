@@ -34,7 +34,7 @@ class RoomListAdapter : RecyclerView.Adapter<RoomListAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.room_name.text = room_list[position].name
-        holder.population.text = "房间里有${room_list[position].population}人在聊天"
+        holder.population.text = "${room_list[position].population}"
     }
 
     override fun getItemCount(): Int {
