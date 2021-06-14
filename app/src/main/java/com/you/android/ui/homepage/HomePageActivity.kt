@@ -3,9 +3,12 @@ package com.you.android.ui.homepage
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.widget.Button
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
-
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -14,23 +17,20 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import com.lxj.xpopup.XPopup
 import com.you.android.R
 import com.you.android.logic.model.RoomListResponse
+import com.you.android.ui.chatroom.ChatroomActivity
 import com.you.android.ui.roomlist.RoomListAdapter
 import com.you.android.ui.roomlist.RoomListViewModel
+import eightbitlab.com.blurview.BlurView
+import eightbitlab.com.blurview.RenderScriptBlur
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
-import android.widget.EditText
-import android.widget.TextView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-
-import com.lxj.xpopup.XPopup
-import com.you.android.ui.chatroom.ChatroomActivity
-import kotlin.random.Random
 
 
 class HomePageActivity : AppCompatActivity() {
@@ -59,9 +59,9 @@ class HomePageActivity : AppCompatActivity() {
 
         val buttonCreateRoom: FloatingActionButton =findViewById(R.id.ButtonCreateChatRoom)
 
-        val buttonSearchRoom: TextView = findViewById(R.id.searchRoomButton)
+        val buttonSearchRoom: ImageView = findViewById(R.id.searchRoomButton)
 
-        val buttonRandomRoom: TextView=findViewById(R.id.ButtonRandomRoom)
+        val buttonRandomRoom: ImageView =findViewById(R.id.ButtonRandomRoom)
 
         buttonCreateRoom.setOnClickListener {
             val poper = XPopup.Builder(this).asInputConfirm(
@@ -108,7 +108,7 @@ class HomePageActivity : AppCompatActivity() {
 
         val roomRecyclerView = findViewById<RecyclerView>(R.id.room_list)
         roomRecyclerView.layoutManager = LinearLayoutManager(this@HomePageActivity)
-        val adapter = RoomListAdapter()
+        val adapter = RoomListAdapter(window.decorView)
         roomRecyclerView.adapter = AlphaInAnimationAdapter(adapter)
 
         createRoomViewModel.createRoomLiveData.observe(this,{result->
@@ -158,5 +158,19 @@ class HomePageActivity : AppCompatActivity() {
             //test
             roomListViewModel.searchRooms()
         }
+        val radius = 20f
+
+        val decorView = window.decorView
+
+        val rootView = decorView.findViewById<View>(android.R.id.content) as ViewGroup
+
+        val windowBackground = decorView.background
+
+        findViewById<BlurView>(R.id.blur_view).setupWith(rootView)
+            .setFrameClearDrawable(windowBackground)
+            .setBlurAlgorithm(RenderScriptBlur(this))
+            .setBlurRadius(radius)
+            .setBlurAutoUpdate(true)
+            .setHasFixedTransformationMatrix(true)
     }
 }

@@ -5,13 +5,21 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     app:cardCornerRadius="5dp"
-    app:cardElevation="5dp"
-    app:contentPadding="5dp">
+    app:cardElevation="0dp"
+    app:contentPadding="5dp"
+    android:background="#00FFFFFF"
+    app:cardBackgroundColor="#00FFFFFF">
+    
+    <eightbitlab.com.blurview.BlurView
+        android:id="@+id/blur_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:blurOverlayColor="#99FDFDFD"
+        android:padding="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#68FFFFFF"
         android:orientation="vertical">
 
         <TextView
@@ -53,5 +61,6 @@
         </LinearLayout>
 
     </LinearLayout>
+    </eightbitlab.com.blurview.BlurView>
 
 </androidx.cardview.widget.CardView>
