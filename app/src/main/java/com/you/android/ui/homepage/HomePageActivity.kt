@@ -3,9 +3,13 @@ package com.you.android.ui.homepage
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.widget.Button
+import android.view.View
+import android.view.ViewGroup
+import android.view.Window
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
-
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -14,23 +18,25 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import com.lxj.xpopup.XPopup
 import com.you.android.R
+import com.you.android.logic.dao.UserDao
 import com.you.android.logic.model.RoomListResponse
+import com.you.android.ui.chatroom.ChatroomActivity
+import com.you.android.ui.chatroom.MsgAdapter
 import com.you.android.ui.roomlist.RoomListAdapter
 import com.you.android.ui.roomlist.RoomListViewModel
+import eightbitlab.com.blurview.BlurView
+import eightbitlab.com.blurview.RenderScriptBlur
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
-import android.widget.EditText
-import android.widget.TextView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-
-import com.lxj.xpopup.XPopup
-import com.you.android.ui.chatroom.ChatroomActivity
-import kotlin.random.Random
 
 
 class HomePageActivity : AppCompatActivity() {
@@ -42,26 +48,37 @@ class HomePageActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_home_page)
 
         var rooms: List<RoomListResponse.Room>?=ArrayList()
 
-        var toolbar = findViewById<Toolbar>(R.id.toolbar_person_center)
 
-        val drawer = findViewById<DrawerLayout>(R.id.drawerLayout_person_center)
+        val navigationView = findViewById<NavigationView>(R.id.navigationView_person_center)
 
-        var navigationView = findViewById<NavigationView>(R.id.navigationView_person_center)
 
-        var actionBarDrawerToggle: ActionBarDrawerToggle
+        setProperty(UserDao.getUserAvatar(),navigationView)
+
+
+
+//        Glide.with(this).load(R.mipmap.avatar_default).apply(
+//            RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+//
+
+        val toolbar = findViewById<Toolbar>(R.id.toolbar_person_center)
+
+        val drawerLayout = findViewById<DrawerLayout>(R.id.drawerLayout_person_center)
+
 
         val editTextSearchRoomName: EditText = findViewById(R.id.textViewSearchRoomName)
 
         val buttonCreateRoom: FloatingActionButton =findViewById(R.id.ButtonCreateChatRoom)
 
-        val buttonSearchRoom: TextView = findViewById(R.id.searchRoomButton)
+        val buttonSearchRoom: ImageView = findViewById(R.id.searchRoomButton)
 
-        val buttonRandomRoom: TextView=findViewById(R.id.ButtonRandomRoom)
+        val buttonRandomRoom: ImageView =findViewById(R.id.ButtonRandomRoom)
 
         buttonCreateRoom.setOnClickListener {
             val poper = XPopup.Builder(this).asInputConfirm(
@@ -108,7 +125,7 @@ class HomePageActivity : AppCompatActivity() {
 
         val roomRecyclerView = findViewById<RecyclerView>(R.id.room_list)
         roomRecyclerView.layoutManager = LinearLayoutManager(this@HomePageActivity)
-        val adapter = RoomListAdapter()
+        val adapter = RoomListAdapter(window.decorView)
         roomRecyclerView.adapter = AlphaInAnimationAdapter(adapter)
 
         createRoomViewModel.createRoomLiveData.observe(this,{result->
@@ -158,5 +175,63 @@ class HomePageActivity : AppCompatActivity() {
             //test
             roomListViewModel.searchRooms()
         }
+        val radius = 20f
+
+        val decorView = window.decorView
+
+        val rootView = decorView.findViewById<View>(android.R.id.content) as ViewGroup
+
+        val windowBackground = decorView.background
+
+        findViewById<BlurView>(R.id.blur_view).setupWith(rootView)
+            .setFrameClearDrawable(windowBackground)
+            .setBlurAlgorithm(RenderScriptBlur(this))
+            .setBlurRadius(radius)
+            .setBlurAutoUpdate(true)
+            .setHasFixedTransformationMatrix(true)
     }
+
+    private fun setProperty( avatarId: String,navigationView: NavigationView) {
+
+        val header=navigationView.inflateHeaderView(R.layout.header_person_center)
+        val userName=header.findViewById<TextView>(R.id.person_center_name)
+        val userPhone=header.findViewById<TextView>(R.id.person_center_phone)
+        val userAvatar=header.findViewById<de.hdodenhof.circleimageview.CircleImageView>(R.id.person_center_avatar)
+
+        userName.text= UserDao.getUserName()
+        userPhone.text= UserDao.getUserTel()
+
+        when (avatarId) {
+//            "default" -> holder.userAvatar.setImageResource(R.mipmap.avatar_default)
+            "default" -> Glide.with(this).load(R.mipmap.avatar_default).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+            "1" -> Glide.with(this).load(R.mipmap.avatar_1).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+            "2" -> Glide.with(this).load(R.mipmap.avatar_2).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+            "3" -> Glide.with(this).load(R.mipmap.avatar_3).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+            "4" -> Glide.with(this).load(R.mipmap.avatar_4).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+            "5" -> Glide.with(this).load(R.mipmap.avatar_5).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+            "6" -> Glide.with(this).load(R.mipmap.avatar_6).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+            "7" -> Glide.with(this).load(R.mipmap.avatar_7).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+            "8" -> Glide.with(this).load(R.mipmap.avatar_8).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+            "9" -> Glide.with(this).load(R.mipmap.avatar_9).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+            "10" -> Glide.with(this).load(R.mipmap.avatar_10).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+            "11" -> Glide.with(this).load(R.mipmap.avatar_11).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+            "12" -> Glide.with(this).load(R.mipmap.avatar_12).apply(
+                RequestOptions.bitmapTransform(RoundedCorners(24))).into(userAvatar)
+
+        }
+    }
+
+
 }

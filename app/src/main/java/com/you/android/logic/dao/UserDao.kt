@@ -37,6 +37,7 @@ object UserDao {
     }
 
 
+
     fun isTelSaved() = sharedPreferences().contains("userTel")
 
     fun isNameSaved() = sharedPreferences().contains("userName")

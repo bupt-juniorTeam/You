@@ -5,7 +5,7 @@
     android:id="@+id/drawerLayout_person_center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorPrimary"
+    android:background="@mipmap/bg_home_page"
     android:fitsSystemWindows="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,7 +17,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
-
             android:maxWidth="10dp"
             android:src="@drawable/ic_baseline_add_24"
             app:elevation="3dp"
@@ -35,40 +34,54 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar_person_center"
+            <eightbitlab.com.blurview.BlurView
+                android:id="@+id/blur_view"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:titleTextColor="#FFF">
+                android:layout_height="wrap_content"
+                app:blurOverlayColor="#99FDFDFD"
+                >
 
-                <EditText
-                    android:id="@+id/textViewSearchRoomName"
-                    android:layout_width="260dp"
-                    android:layout_height="35dp"
-                    android:layout_marginStart="40dp"
-                    android:background="@drawable/send_text_background"
-                    android:padding="10dp"
-                    android:textColor="?attr/colorOnPrimary"
-                    android:textSize="25sp" />
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar_person_center"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@color/transparent"
+                    android:backgroundTint="#99FFFFFF"
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    app:titleTextColor="#FFF">
 
-                <TextView
-                    android:id="@+id/searchRoomButton"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_marginStart="12dp"
-                    android:background="@mipmap/ic_search_48sp" />
+                    <EditText
+                        android:id="@+id/textViewSearchRoomName"
+                        android:layout_width="260dp"
+                        android:layout_height="35dp"
+                        android:layout_marginStart="4dp"
+                        android:background="@drawable/send_text_background"
+                        android:padding="10dp"
+                        android:textColor="?attr/colorOnPrimary"
+                        android:textSize="25sp" />
 
-                <TextView
-                    android:id="@+id/ButtonRandomRoom"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_marginStart="12dp"
-                    android:background="@mipmap/dice" />
+                    <ImageView
+                        android:id="@+id/searchRoomButton"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginStart="18dp"
+                        android:padding="6dp"
+                        android:src="@mipmap/ic_search_48sp"
+                        app:tint="#99FFFFFF" />
+
+                    <ImageView
+                        android:id="@+id/ButtonRandomRoom"
+                        android:layout_width="40dp"
+                        android:layout_height="32dp"
+                        android:padding="2dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="4dp"
+                        android:src="@mipmap/dice"
+                        app:tint="#BCFFFFFF" />
 
 
-            </androidx.appcompat.widget.Toolbar>
-
+                </androidx.appcompat.widget.Toolbar>
+            </eightbitlab.com.blurview.BlurView>
             <!--主页面-->
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -95,7 +108,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:headerLayout="@layout/activity_person_center"
         app:insetForeground="@android:color/transparent"
         app:menu="@menu/menu_person_info" >
 
